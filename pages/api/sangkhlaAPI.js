@@ -488,6 +488,8 @@ router.route("/dbcheck").get((req, res) => {
 
     //upload attraction images
     router.route('/upload/attraction-images').post(upload_attraction_images.single('attraction'),(req,res,cb)=>{
+      // console.log('cb is',cb);
+      console.log('res is',res);
       let image_name = req.file.filename
       res.status(200).json({status:200,type:'success',image_name})
     })
