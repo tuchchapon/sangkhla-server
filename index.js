@@ -11,9 +11,9 @@ app.use('/uploads', express.static(path.join(__dirname, 'public')));
 
 require('dotenv').config()
 const mongoose = require('mongoose')
-app.use(cors({
-    origin: '*'
-}));
+// app.use(cors({
+//     origin: '*'
+// }));
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -34,6 +34,7 @@ app.use(function (req, res, next) {
     }
     next();
   });
+  
 app.use(express.json());
 const mongoURL = process.env.DB_URL
 mongoose.connect(mongoURL,{
