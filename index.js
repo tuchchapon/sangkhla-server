@@ -2,11 +2,13 @@ const express = require('express')
 const app = express();
 const multer  = require('multer')
 const cors = require('cors')
-const { dirname } = require('path');
+// const { dirname } = require('path');
+const path = require('path')
 // const appDir = dirname(require.main.filename);
 // const upload = multer({ dest: `${appDir}/public/uploadImage` })
 // app.use('/uploads', express.static('./uploads'));
-app.use('/uploads', express.static('/public'));
+app.use('/uploads', express.static(path.join(__dirname, 'public')));
+
 require('dotenv').config()
 const mongoose = require('mongoose')
 app.use(cors())
