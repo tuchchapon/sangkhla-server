@@ -14,6 +14,7 @@ const mongoose = require('mongoose')
 app.use(cors({
     origin: '*'
 }));
+
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header(
@@ -24,6 +25,8 @@ app.use(function (req, res, next) {
     res.header("X-Content-Type-Options", "nosniff");
     res.header("X-XSS-Protection", "1; mode=block");
     res.header("X-Frame-Options", "SAMEORIGIN");
+    res.header('Access-Control-Allow-Origin', 'https://sangkhla2go.vercel.app/')
+    res.header('Access-Control-Allow-Methods','POST, GET, PUT, PATCH, DELETE, OPTIONS')
     res.header("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
     if (req.method === "OPTIONS") {
       res.header("Access-Control-Allow-Methods", "PUT, POST, PATH, DELETE, GET");
