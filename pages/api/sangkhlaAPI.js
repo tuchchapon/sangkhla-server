@@ -28,7 +28,7 @@ const appDir = dirname(require.main.filename);
 
 const driver_storage = multer.diskStorage({
     destination:function(req,file,cb){
-      cb(null,`${appDir}/public/uploadImage/driver`)
+      cb(null,`${appDir}/uploadImage/driver`)
     },
     filename:function(req,file,cb){
       let _fileType = file.originalname.substring(file.originalname.indexOf("."));
@@ -48,7 +48,7 @@ const upload_driver_image = multer({ storage:driver_storage })
 const officer_storage = multer.diskStorage({
 
   destination:function(req,file,cb){
-    cb(null,`${appDir}/public/uploadImage/officer`)
+    cb(null,`${appDir}/uploadImage/officer`)
   },
   filename:function(req,file,cb){
     let _fileType = file.originalname.substring(file.originalname.indexOf("."));
@@ -68,7 +68,7 @@ const upload_officer_image = multer({ storage:officer_storage })
 const tradition_storage = multer.diskStorage({
 
   destination:function(req,file,cb){
-    cb(null,`${appDir}/public/uploadImage/tradition`)
+    cb(null,`${appDir}/uploadImage/tradition`)
   },
   filename:function(req,file,cb){
     let _fileType = file.originalname.substring(file.originalname.indexOf("."));
@@ -89,7 +89,7 @@ const upload_tradition_image = multer({ storage:tradition_storage })
 const product_storage = multer.diskStorage({
 
   destination:function(req,file,cb){
-    cb(null,`${appDir}/public/uploadImage/product`)
+    cb(null,`${appDir}/uploadImage/product`)
   },
   filename:function(req,file,cb){
     let _fileType = file.originalname.substring(file.originalname.indexOf("."));
@@ -109,7 +109,7 @@ const upload_product_images = multer({ storage:product_storage })
 const attraction_storage = multer.diskStorage({
 
   destination:function(req,file,cb){
-    cb(null,`${appDir}/public/uploadImage/attraction`)
+    cb(null,`${appDir}/uploadImage/attraction`)
   },
   filename:function(req,file,cb){
     let _fileType = file.originalname.substring(file.originalname.indexOf("."));
@@ -129,7 +129,7 @@ const  upload_attraction_images = multer({ storage:attraction_storage })
 const boat_provider_storage = multer.diskStorage({
 
   destination:function(req,file,cb){
-    cb(null,`${appDir}/public/uploadImage/boatProvider`)
+    cb(null,`${appDir}/uploadImage/boatProvider`)
   },
   filename:function(req,file,cb){
     let _fileType = file.originalname.substring(file.originalname.indexOf("."));
@@ -149,7 +149,7 @@ const  upload_boat_provider_image = multer({ storage:boat_provider_storage })
 const restaurant_storage = multer.diskStorage({
 
   destination:function(req,file,cb){
-    cb(null,`${appDir}/public/uploadImage/restaurant`)
+    cb(null,`${appDir}/uploadImage/restaurant`)
   },
   filename:function(req,file,cb){
     let _fileType = file.originalname.substring(file.originalname.indexOf("."));
@@ -169,7 +169,7 @@ const  upload_restaurant_images = multer({ storage:restaurant_storage })
 const accommodation_storage = multer.diskStorage({
 
   destination:function(req,file,cb){
-    cb(null,`${appDir}/public/uploadImage/accommodation`)
+    cb(null,`${appDir}/uploadImage/accommodation`)
   },
   filename:function(req,file,cb){
     let _fileType = file.originalname.substring(file.originalname.indexOf("."));
@@ -491,7 +491,7 @@ router.route("/dbcheck").get((req, res) => {
       // console.log('cb is',cb);
       // console.log('res is',res);
       // res.sendFile(`${res.file.filename}`, {root: "/uploadimage"});
-      // let image_name =`${process.cwd()}/public/uploadimage/attraction/${req.file.filename}`
+      // let image_name =`${process.cwd()}/uploadimage/attraction/${req.file.filename}`
       let image_name =`${req.file.filename}`
       console.log('image name is',image_name);
       // res.status(500).json({status:500,types:'err',image_name})
