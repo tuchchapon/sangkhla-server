@@ -479,7 +479,7 @@ router.route("/dbcheck").get((req, res) => {
       let image_name = req.file.filename
       res.status(200).json({status:200,type:'success',image_name})
     })
-    
+
     //upload product images
     router.route('/upload/product-images').post(upload_product_images.single('product'),(req,res,cb)=>{
       let image_name = req.file.filename
@@ -489,8 +489,11 @@ router.route("/dbcheck").get((req, res) => {
     //upload attraction images
     router.route('/upload/attraction-images').post(upload_attraction_images.single('attraction'),(req,res,cb)=>{
       // console.log('cb is',cb);
-      console.log('res is',res);
-      let image_name = req.file.filename
+      // console.log('res is',res);
+      // res.sendFile(`${res.file.filename}`, {root: "/uploadimage"});
+      // let image_name =`${process.cwd()}/public/uploadimage/attraction/${req.file.filename}`
+      let image_name =`${process.cwd()}/public/uploadimage/attraction/${req.file.filename}`
+      console.log('image name is',image_name);
       res.status(200).json({status:200,type:'success',image_name})
     })
 
