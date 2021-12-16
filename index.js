@@ -33,13 +33,25 @@ const mongoose = require('mongoose')
 //     }
 //     next();
 //   });
-  app.all('*', function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-});
+//   app.all('*', function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//     res.header('Access-Control-Allow-Headers', 'Content-Type');
+//     next();
+// });
   
+app.use((req, res, next) => {
+    const allowedOrigins = ['https://sangkhla2go.vercel.app', 'https://sangkhla2go-tuchchapon.vercel.app', 'https://sangkhla2go.com', 'https://sangkhla2go-git-main-tuchchapon.vercel.app'];
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+         res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+    //res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:8020');
+    res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Credentials', true);
+    return next();
+  });
 app.use(express.json());
 const mongoURL = process.env.DB_URL
 mongoose.connect(mongoURL,{
