@@ -492,7 +492,7 @@ router.route("/dbcheck").get((req, res) => {
       // console.log('res is',res);
       // res.sendFile(`${res.file.filename}`, {root: "/uploadimage"});
       // let image_name =`${process.cwd()}/public/uploadimage/attraction/${req.file.filename}`
-      let image_name =`${process.cwd()}/${req.file.filename}`
+      let image_name =`${req.file.filename}`
       console.log('image name is',image_name);
       res.status(200).json({status:200,type:'success',image_name})
     })
