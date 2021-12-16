@@ -12,8 +12,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'public')));
 require('dotenv').config()
 const mongoose = require('mongoose')
 app.use(cors({
-    origin: 'https://www.section.io'
-}))
+    origin: '*'
+}));
 // app.use(function (req, res, next) {
 //     res.header("Access-Control-Allow-Origin", "*");
 //     res.header(
