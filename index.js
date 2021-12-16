@@ -11,6 +11,11 @@ app.use('/uploads', express.static(path.join(__dirname, 'public')));
 
 require('dotenv').config()
 const mongoose = require('mongoose')
+const corsOptions = {
+    origin: ['https://sangkhla2go.vercel.app', 'https://sangkhla2go-tuchchapon.vercel.app', 'https://sangkhla2go.com', 'https://sangkhla2go-git-main-tuchchapon.vercel.app'],
+    credentials: true,
+  };
+  app.use(cors(corsOptions));
 // app.use(cors({
 //     origin: '*'
 // }));
@@ -39,11 +44,7 @@ const mongoose = require('mongoose')
 //     res.header('Access-Control-Allow-Headers', 'Content-Type');
 //     next();
 // });
-const corsOptions = {
-    origin: ['https://sangkhla2go.vercel.app', 'https://sangkhla2go-tuchchapon.vercel.app', 'https://sangkhla2go.com', 'https://sangkhla2go-git-main-tuchchapon.vercel.app'],
-    credentials: true,
-  };
-  app.use(cors(corsOptions));
+
 // app.use((req, res, next) => {
 //     const allowedOrigins = ['https://sangkhla2go.vercel.app', 'https://sangkhla2go-tuchchapon.vercel.app', 'https://sangkhla2go.com', 'https://sangkhla2go-git-main-tuchchapon.vercel.app'];
 //     const origin = req.headers.origin;

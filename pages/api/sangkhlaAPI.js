@@ -495,7 +495,7 @@ router.route("/dbcheck").get((req, res) => {
       let image_name =`${req.file.filename}`
       console.log('image name is',image_name);
       // res.status(500).json({status:500,types:'err',image_name})
-      res.status(200).json({status:200,type:'success',image_name})
+      res.status(200).json({status:200,type:'success',image_name}).catch(res.status(500));
     })
 
     //upload boat provider image 
