@@ -5,7 +5,8 @@ const cors = require('cors')
 const { dirname } = require('path');
 // const appDir = dirname(require.main.filename);
 // const upload = multer({ dest: `${appDir}/public/uploadImage` })
-app.use('/uploads', express.static('./uploads'));
+// app.use('/uploads', express.static('./uploads'));
+app.use('/uploads', express.static('/public'));
 require('dotenv').config()
 const mongoose = require('mongoose')
 app.use(cors())
