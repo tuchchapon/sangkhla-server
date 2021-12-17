@@ -45,7 +45,7 @@ app.use(cors({
 // });
 
 app.use(express.json());
-const mongoURL = process.env.DB_URL
+const mongoURL = "mongodb+srv://admin:1234@sangkhla.lm5wh.mongodb.net/Sangkhla2goDB"
 mongoose.connect(mongoURL,{
     useNewUrlParser: true,
 	useUnifiedTopology: true,

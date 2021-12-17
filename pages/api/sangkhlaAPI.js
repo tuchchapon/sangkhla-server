@@ -190,7 +190,7 @@ const accommodation_storage = multer.diskStorage({
 const  upload_accommodation_images = multer({ storage:accommodation_storage })
 
 
-const mongoURL = process.env.DB_URL
+const mongoURL = "mongodb+srv://admin:1234@sangkhla.lm5wh.mongodb.net/Sangkhla2goDB"
 
 
 router.route("/dbcheck").get((req, res) => {
@@ -429,27 +429,27 @@ router.route("/dbcheck").get((req, res) => {
         res.json({status:'error',error:'password wrong'})
       }
     })
-    router.route('/upload/attraction-images2').get(async(req,res,next)=>{
-      // const form = formidable({multiples:true})
-      // form.parse(req,(err,fields,files)=>{
-      //   if (err) {
-      //     next(err)
-      //     return;
-      res.send('hello')
-      //   }
-      //   res.json({fields,files});
-      // })
-    })
-    router.route('/upload/attraction-images3').post(async(req,res,next)=>{
-      const form = formidable({multiples:true})
-      form.parse(req,(err,fields,files)=>{
-        if (err) {
-          next(err)
-          return;
-        }
-        res.json({fields,files});
-      })
-    })
+    // router.route('/upload/attraction-images2').get(async(req,res,next)=>{
+    //   // const form = formidable({multiples:true})
+    //   // form.parse(req,(err,fields,files)=>{
+    //   //   if (err) {
+    //   //     next(err)
+    //   //     return;
+    //   res.send()
+    //   //   }
+    //   //   res.json({fields,files});
+    //   // })
+    // })
+    // router.route('/upload/attraction-images3').post(async(req,res,next)=>{
+    //   const form = formidable({multiples:true})
+    //   form.parse(req,(err,fields,files)=>{
+    //     if (err) {
+    //       next(err)
+    //       return;
+    //     }
+    //     res.json({fields,files});
+    //   })
+    // })
     // change password  api
     router.route('/reset-password').post(async(req, res)=>{
       const {password,token} = req.body
