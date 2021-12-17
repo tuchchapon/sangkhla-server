@@ -500,7 +500,7 @@ router.route("/dbcheck").get((req, res) => {
 
     //upload boat provider image 
     router.route('/upload/boatprovider-image').post(upload_boat_provider_image.single('provider'),(req,res,cb)=>{
-      let image_name = req.file.filename
+      let image_name = req.file.filename.toString.trim()
       res.status(200).json({status:200,type:'success',image_name})
     })
 
