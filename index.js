@@ -12,11 +12,7 @@ require('dotenv').config()
 app.use('/uploads', express.static(path.join(__dirname, 'public')));
 
 const mongoose = require('mongoose')
-// const corsOptions = {
-//     origin: ['https://sangkhla2go.vercel.app', 'https://sangkhla2go-tuchchapon.vercel.app', 'https://sangkhla2go.com', 'https://sangkhla2go-git-main-tuchchapon.vercel.app','http://localhost:3000'],
-//     credentials: true,
-//   };
-  // app.use(cors(corsOptions));
+
 app.use(cors({
     origin: '*'
 }));

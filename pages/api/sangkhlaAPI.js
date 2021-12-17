@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const router = express.Router();
 const ObjectId = require('mongoose').Types.ObjectId
-const next = require(next)
+const next = require('next')
 const randomstring = require('randomstring')
 const mongoose = require('mongoose');
 const Drivers = require('../../model/driver')
@@ -25,6 +25,7 @@ const Product = require('../../model/product');
 const { default: next } = require('next');
 const handle = express.getRequestHandler()
 const JWT_SECRET ='sadkajsdj1k3sastichasasclsadnfjasltuSFKHSJKDAPI@$@QKFSJKSJDK'
+app = next({ dev })
 require('dotenv').config()
 const appDir = dirname(require.main.filename);
 
@@ -494,7 +495,6 @@ router.route("/dbcheck").get((req, res) => {
       // console.log('res is',res);
       // res.sendFile(`${res.file.filename}`, {root: "/uploadimage"});
       // let image_name =`${process.cwd()}/uploadimage/attraction/${req.file.filename}`
-      // let image_name = '1234'
       // let image_name =`${req.file.filename}`
       let image_name = req.file.filename
       // return handle(req, res)
