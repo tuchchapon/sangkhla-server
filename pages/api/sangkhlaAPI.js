@@ -444,7 +444,8 @@ router.route("/dbcheck").get((req, res) => {
       const form = formidable({multiples:true})
       form.parse(req,(err,fields,files)=>{
         if (err) {
-          next(err)
+          // next(err)
+          res.json({err:err})
           return;
         }
         res.json({fields,files});
