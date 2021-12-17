@@ -22,12 +22,10 @@ const Attraction = require('../../model/attraction')
 const Tradition = require('../../model/traditions')
 const Officer = require('../../model/officer')
 const Product = require('../../model/product');
-const { default: next } = require('next');
-const handle = express.getRequestHandler()
+// const handle = express.getRequestHandler()
 const formidable = require("formidable");
 // const form  =formidable.IncomingForm()
 const JWT_SECRET ='sadkajsdj1k3sastichasasclsadnfjasltuSFKHSJKDAPI@$@QKFSJKSJDK'
-app = next({ dev })
 require('dotenv').config()
 const appDir = dirname(require.main.filename);
 
