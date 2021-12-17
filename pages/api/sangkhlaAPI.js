@@ -1607,7 +1607,11 @@ router.route("/dbcheck").get((req, res) => {
       await Product.deleteOne({_id:req.body.id})
       return res.status(200).json({status:200,type:'success',payload:'ลบข้อมูลสำเร็จแล้ว'})
     })
-    router.route('*', (req, res) => {
-      return handle(req, res)
+    router.route('/get/path').get(async(req,res)=>{
+      console.log(appDir);
+      return res.json({path:appDir})
     })
+    // router.route('*', (req, res) => {
+    //   return handle(req, res)
+    // })
   module.exports = router;
