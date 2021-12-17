@@ -109,10 +109,11 @@ const product_storage = multer.diskStorage({
 const upload_product_images = multer({ storage:product_storage })
 
 const attraction_storage = multer.diskStorage({
-
+  
   destination:function(req,file,cb){
     cb(null,`${appDir}/public/uploadImage/attraction`)
   },
+  
   filename:function(req,file,cb){
     let _fileType = file.originalname.substring(file.originalname.indexOf("."));
     let _fileName
@@ -498,7 +499,7 @@ router.route("/dbcheck").get((req, res) => {
 
     // upload attraction images
     router.route('/upload/attraction-images').post(upload_attraction_images.single('attraction'),(req,res,cb)=>{
-      res.status(500).json({err,error});
+      
       // console.log('cb is',cb);
       // console.log('res is',res);
       // res.sendFile(`${res.file.filename}`, {root: "/uploadimage"});
@@ -507,6 +508,7 @@ router.route("/dbcheck").get((req, res) => {
       let image_name = req.file.filename
       // return handle(req, res)
       res.status(200).json({status:200,type:'success',image_name})
+      res.status(500).json({err,error,filename:image_name});
       // res.status(200).json({status:200,type:'success',image_name})
     })
 
