@@ -2,7 +2,7 @@ const express = require('express')
 const app = express();
 const multer  = require('multer')
 const cors = require('cors')
-const bodyParser = require('body-parser')
+// const bodyParser = require('body-parser')
 // const { dirname } = require('path');
 const path = require('path')
 // app.use('/uploads', express.static('./uploads'));
@@ -16,7 +16,7 @@ const mongoose = require('mongoose')
 app.use(cors({
     origin: '*'
 }));
-app.use(bodyParser.json())
+// app.use(bodyParser.json())
 // app.use(function (req, res, next) {
 //     res.header("Access-Control-Allow-Origin", "*");
 //     res.header(
