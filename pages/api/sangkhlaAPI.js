@@ -429,7 +429,18 @@ router.route("/dbcheck").get((req, res) => {
         res.json({status:'error',error:'password wrong'})
       }
     })
-    router.route('/upload/attraction-images2').post(async(req,res,next)=>{
+    router.route('/upload/attraction-images2').get(async(req,res,next)=>{
+      // const form = formidable({multiples:true})
+      // form.parse(req,(err,fields,files)=>{
+      //   if (err) {
+      //     next(err)
+      //     return;
+      res.send('hello')
+      //   }
+      //   res.json({fields,files});
+      // })
+    })
+    router.route('/upload/attraction-images3').post(async(req,res,next)=>{
       const form = formidable({multiples:true})
       form.parse(req,(err,fields,files)=>{
         if (err) {
