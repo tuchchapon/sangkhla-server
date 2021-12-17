@@ -53,9 +53,7 @@ mongoose.connect(mongoURL,{
 	useUnifiedTopology: true,
 	useCreateIndex: true
 })
-app.get('*', (req, res) => {
-  return handle(req, res)
-})
+
 mongoose.connection.readyState==2?console.log('connected server...'):''
 app.use('/',require('./pages/api/sangkhlaAPI'))
 app.listen(8080,function(){

@@ -1599,5 +1599,7 @@ router.route("/dbcheck").get((req, res) => {
       await Product.deleteOne({_id:req.body.id})
       return res.status(200).json({status:200,type:'success',payload:'ลบข้อมูลสำเร็จแล้ว'})
     })
-
+    express.get('*', (req, res) => {
+      return handle(req, res)
+    })
   module.exports = router;
