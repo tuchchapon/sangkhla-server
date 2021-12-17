@@ -5,7 +5,6 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const router = express.Router();
 const ObjectId = require('mongoose').Types.ObjectId
-const next = require('next')
 const randomstring = require('randomstring')
 const mongoose = require('mongoose');
 const Drivers = require('../../model/driver')
@@ -23,7 +22,7 @@ const Tradition = require('../../model/traditions')
 const Officer = require('../../model/officer')
 const Product = require('../../model/product');
 // const handle = express.getRequestHandler()
-const formidable = require("formidable");
+// const formidable = require("formidable");
 // const form  =formidable.IncomingForm()
 const JWT_SECRET ='sadkajsdj1k3sastichasasclsadnfjasltuSFKHSJKDAPI@$@QKFSJKSJDK'
 require('dotenv').config()
@@ -429,28 +428,15 @@ router.route("/dbcheck").get((req, res) => {
         res.json({status:'error',error:'password wrong'})
       }
     })
-    router.route('/upload/attraction-images2').get(async(req,res,next)=>{
-      // const form = formidable({multiples:true})
-      // form.parse(req,(err,fields,files)=>{
-      //   if (err) {
-      //     next(err)
-      //     return;
-      res.json({data:'hello world'})
-      //   }
-      //   res.json({fields,files});
-      // })
-    })
-    router.route('/upload/attraction-images3').post(async(req,res,next)=>{
-      const form = formidable({multiples:true})
-      form.parse(req,(err,fields,files)=>{
-        if (err) {
-          // next(err)
-          res.json({err:err})
-          return;
-        }
-        res.json({fields,files});
-      })
-    })
+    // router.route('/upload/attraction-images').post(async(req,res,next)=>{
+    //   const form = formidable({multiples:true})
+    //   form.parse(req,(err,fields,files)=>{
+    //     if (err) {
+    //       next(err)
+    //       return
+    //     }
+    //   })
+    // })
     // change password  api
     router.route('/reset-password').post(async(req, res)=>{
       const {password,token} = req.body
