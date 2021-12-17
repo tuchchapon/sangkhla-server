@@ -431,7 +431,7 @@ router.route("/dbcheck").get((req, res) => {
         res.json({status:'error',error:'password wrong'})
       }
     })
-    router.route('/upload/attraction-images').post(async(req,res,next)=>{
+    router.route('/upload/attraction-images2').post(async(req,res,next)=>{
       const form = formidable({multiples:true})
       form.parse(req,(err,fields,files)=>{
         if (err) {
