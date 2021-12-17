@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const router = express.Router();
 const ObjectId = require('mongoose').Types.ObjectId
+const next = require(next)
 const randomstring = require('randomstring')
 const mongoose = require('mongoose');
 const Drivers = require('../../model/driver')
@@ -20,8 +21,9 @@ const accommodation = require('../../model/accommodation');
 const Attraction = require('../../model/attraction')
 const Tradition = require('../../model/traditions')
 const Officer = require('../../model/officer')
-const Product = require('../../model/product')
-
+const Product = require('../../model/product');
+const { default: next } = require('next');
+const handle = express.getRequestHandler()
 const JWT_SECRET ='sadkajsdj1k3sastichasasclsadnfjasltuSFKHSJKDAPI@$@QKFSJKSJDK'
 require('dotenv').config()
 const appDir = dirname(require.main.filename);
@@ -491,12 +493,13 @@ router.route("/dbcheck").get((req, res) => {
       // console.log('cb is',cb);
       // console.log('res is',res);
       // res.sendFile(`${res.file.filename}`, {root: "/uploadimage"});
-      // let image_name =`${process.cwd()}/public/uploadimage/attraction/${req.file.filename}`
+      // let image_name =`${process.cwd()}/uploadimage/attraction/${req.file.filename}`
       // let image_name = '1234'
       // let image_name =`${req.file.filename}`
-      console.log('image name is',image_name);
-      // res.status(500).json({status:500,types:'err',image_name})
+      let image_name = req.file.filename
+      // return handle(req, res)
       res.status(200).json({status:200,type:'success',image_name})
+      // res.status(200).json({status:200,type:'success',image_name})
     })
 
     //upload boat provider image 
