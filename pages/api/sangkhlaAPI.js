@@ -435,7 +435,7 @@ router.route("/dbcheck").get((req, res) => {
       //   if (err) {
       //     next(err)
       //     return;
-      res.send()
+      res.json({data:'hello world'})
       //   }
       //   res.json({fields,files});
       // })
