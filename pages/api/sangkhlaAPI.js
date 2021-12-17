@@ -24,6 +24,8 @@ const Officer = require('../../model/officer')
 const Product = require('../../model/product');
 const { default: next } = require('next');
 const handle = express.getRequestHandler()
+const formidable = require("formidable");
+// const form  =formidable.IncomingForm()
 const JWT_SECRET ='sadkajsdj1k3sastichasasclsadnfjasltuSFKHSJKDAPI@$@QKFSJKSJDK'
 app = next({ dev })
 require('dotenv').config()
@@ -429,7 +431,16 @@ router.route("/dbcheck").get((req, res) => {
         res.json({status:'error',error:'password wrong'})
       }
     })
-
+    router.route('/upload/attraction-images').post(async(req,res,next)=>{
+      const form = formidable({multiples:true})
+      form.parse(req,(err,fields,files)=>{
+        if (err) {
+          next(err)
+          return;
+        }
+        res.json({fields,files});
+      })
+    })
     // change password  api
     router.route('/reset-password').post(async(req, res)=>{
       const {password,token} = req.body
@@ -490,17 +501,18 @@ router.route("/dbcheck").get((req, res) => {
     })
 
     //upload attraction images
-    router.route('/upload/attraction-images').post(upload_attraction_images.single('attraction'),(req,res,cb)=>{
-      // console.log('cb is',cb);
-      // console.log('res is',res);
-      // res.sendFile(`${res.file.filename}`, {root: "/uploadimage"});
-      // let image_name =`${process.cwd()}/uploadimage/attraction/${req.file.filename}`
-      // let image_name =`${req.file.filename}`
-      let image_name = req.file.filename
-      // return handle(req, res)
-      res.status(200).json({status:200,type:'success',image_name})
-      // res.status(200).json({status:200,type:'success',image_name})
-    })
+    // router.route('/upload/attraction-images').post(upload_attraction_images.single('attraction'),(req,res,cb)=>{
+    //   // console.log('cb is',cb);
+    //   // console.log('res is',res);
+    //   // res.sendFile(`${res.file.filename}`, {root: "/uploadimage"});
+    //   // let image_name =`${process.cwd()}/uploadimage/attraction/${req.file.filename}`
+    //   // let image_name =`${req.file.filename}`
+    //   let image_name = req.file.filename
+    //   // return handle(req, res)
+    //   res.status(200).json({status:200,type:'success',image_name})
+    //   // res.status(200).json({status:200,type:'success',image_name})
+    // })
+
 
     //upload boat provider image 
     router.route('/upload/boatprovider-image').post(upload_boat_provider_image.single('provider'),(req,res,cb)=>{
