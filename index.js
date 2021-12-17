@@ -10,7 +10,6 @@ const path = require('path')
 // const appDir = dirname(require.main.filename);
 // const uploads = multer({ dest: `${appDir}/public/uploadImage` })
 require('dotenv').config()
-
 app.use('/uploads', express.static(path.join(__dirname, 'public')));
 
 const mongoose = require('mongoose')
@@ -45,7 +44,7 @@ app.use(cors({
 // });
 
 app.use(express.json());
-const mongoURL = "mongodb+srv://admin:1234@sangkhla.lm5wh.mongodb.net/Sangkhla2goDB"
+const mongoURL = process.env.DB_URL
 mongoose.connect(mongoURL,{
     useNewUrlParser: true,
 	useUnifiedTopology: true,
