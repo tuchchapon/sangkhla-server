@@ -2,13 +2,14 @@ const express = require('express')
 const app = express();
 const multer  = require('multer')
 const cors = require('cors')
-// const bodyParser = require('body-parser')
+const bodyParser = require('body-parser')
 // const { dirname } = require('path');
 const path = require('path')
 require('dotenv').config()
+// var bodyParser = require('body-parser');
 app.use('/uploads', express.static(path.join(__dirname, 'public')));
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 const mongoose = require('mongoose')
 
 // app.use(cors({
