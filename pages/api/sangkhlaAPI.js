@@ -509,13 +509,13 @@ router.route("/dbcheck").get((req, res) => {
       // res.sendFile(`${req.file.filename}`, {root: "/uploadimage"});
       // let image_name =`${process.cwd()}/uploadimage/attraction/${req.file.filename}`
       // let image_name =`${req.file.filename.toString}`
-      try {
+ 
         let image_name = req.file.filename
         res.status(200).json({status:200,type:'success',image_name})
-      } catch (error) {
+   
         console.log(error);
         res.status(500).json({err,error,filename:image_name});
-      }
+  
       // return handle(req, res)
       // res.status(200).json({status:200,type:'success',image_name})
 
