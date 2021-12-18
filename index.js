@@ -2,7 +2,7 @@ const express = require('express')
 const app = express();
 const multer  = require('multer')
 const cors = require('cors')
-const bodyParser = require('body-parser')
+// const bodyParser = require('body-parser')
 // const { dirname } = require('path');
 const path = require('path')
 // const appDir = dirname(require.main.filename);
@@ -10,13 +10,14 @@ const path = require('path')
 require('dotenv').config()
 // app.use('/uploads', express.static('./uploads'));
 app.use('/uploads', express.static(path.join(__dirname, 'public')));
+// app.use('/static', express.static(path.join(__dirname, 'public')))
 // app
 const mongoose = require('mongoose')
 
 // app.use(cors({
 //     origin: '*'
 // }));
-app.use(bodyParser.json())
+// app.use(bodyParser.json())
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header(
