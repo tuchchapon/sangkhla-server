@@ -506,14 +506,19 @@ router.route("/dbcheck").get((req, res) => {
       console.log('app dir is',appDir);
       console.log('file name is',req.file.filename);
       // console.log('file is',res.allowHalfOpen);
-      res.sendFile(`${req.file.filename}`, {root: "/uploadimage"});
+      // res.sendFile(`${req.file.filename}`, {root: "/uploadimage"});
       // let image_name =`${process.cwd()}/uploadimage/attraction/${req.file.filename}`
       // let image_name =`${req.file.filename.toString}`
-      let image_name = req.file.filename
+      try {
+        let image_name = req.file.filename
+        res.status(200).json({status:200,type:'success',image_name})
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({err,error,filename:image_name});
+      }
       // return handle(req, res)
       // res.status(200).json({status:200,type:'success',image_name})
-      res.status(200).json({status:200,type:'success',image_name})
-      res.status(500).json({err,error,filename:image_name});
+
     })
 
 
@@ -571,8 +576,8 @@ router.route("/dbcheck").get((req, res) => {
                 console.log('update admin is',admin);
                 console.log('token is ',new_token);
             console.log(admin.email);
-            let url =`http://localhost:3000/resetPassword?token=${new_token}`
-            // console.log('update admin is',updateAdmin);
+            let url =`${appDir}/resetPassword?token=${new_token}`
+            console.log('update admin is',updateAdmin);
              smtpTransport.verify()
             smtpTransport.sendMail({
               to:admin.email,
