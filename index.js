@@ -5,11 +5,11 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 // const { dirname } = require('path');
 const path = require('path')
-// app.use('/uploads', express.static('./uploads'));
 // const appDir = dirname(require.main.filename);
 // const uploads = multer({ dest: `${appDir}/public/uploadImage` })
 require('dotenv').config()
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// app.use('/uploads', express.static('./uploads'));
+app.use('/uploads', express.static(path.join(__dirname, 'public')));
 // app
 const mongoose = require('mongoose')
 
