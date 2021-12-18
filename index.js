@@ -9,8 +9,8 @@ const path = require('path')
 // const appDir = dirname(require.main.filename);
 // const uploads = multer({ dest: `${appDir}/public/uploadImage` })
 require('dotenv').config()
-app.use('/uploads', express.static(path.join(__dirname, 'public')));
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// app
 const mongoose = require('mongoose')
 
 // app.use(cors({
@@ -35,12 +35,12 @@ app.use(function (req, res, next) {
     }
     next();
   });
-//   app.all('*', function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-//     res.header('Access-Control-Allow-Headers', 'Content-Type');
-//     next();
-// });
+  app.all('*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
 
 app.use(express.json());
 const mongoURL = process.env.DB_URL

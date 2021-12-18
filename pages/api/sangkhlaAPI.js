@@ -140,6 +140,7 @@ const boat_provider_storage = multer.diskStorage({
     if (_fileType === '.jpg' || _fileType === '.png' || _fileType === '.jpeg' || _fileType === '.webp') {
      
       _fileName  = file.fieldname+Date.now()+_fileType;
+
     }
     else{
       _fileName = 'wrong_file_type'+Date.now()
@@ -502,14 +503,17 @@ router.route("/dbcheck").get((req, res) => {
       
       // console.log('cb is',cb);
       // console.log('res is',res);
-      res.sendFile(`${res.file.filename}`, {root: "/uploadimage"});
+      console.log('app dir is',appDir);
+      console.log('file name is',req.file.filename);
+      // console.log('file is',res.allowHalfOpen);
+      res.sendFile(`${req.file.filename}`, {root: "/uploadimage"});
       // let image_name =`${process.cwd()}/uploadimage/attraction/${req.file.filename}`
-      // let image_name =`${req.file.filename}`
-      // let image_name = req.file.filename
+      // let image_name =`${req.file.filename.toString}`
+      let image_name = req.file.filename
       // return handle(req, res)
+      // res.status(200).json({status:200,type:'success',image_name})
       res.status(200).json({status:200,type:'success',image_name})
       res.status(500).json({err,error,filename:image_name});
-      // res.status(200).json({status:200,type:'success',image_name})
     })
 
 
