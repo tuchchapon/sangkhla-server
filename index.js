@@ -5,13 +5,10 @@ const cors = require('cors')
 // const bodyParser = require('body-parser')
 // const { dirname } = require('path');
 const path = require('path')
-// const appDir = dirname(require.main.filename);
-// const uploads = multer({ dest: `${appDir}/public/uploadImage` })
 require('dotenv').config()
-// app.use('/uploads', express.static('./uploads'));
 app.use('/uploads', express.static(path.join(__dirname, 'public')));
-// app.use('/static', express.static(path.join(__dirname, 'public')))
-// app
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 const mongoose = require('mongoose')
 
 // app.use(cors({
