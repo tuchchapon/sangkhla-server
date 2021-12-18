@@ -40,7 +40,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use(express.json());
+// app.use(express.json());
 const mongoURL = process.env.DB_URL
 mongoose.connect(mongoURL,{
     useNewUrlParser: true,
