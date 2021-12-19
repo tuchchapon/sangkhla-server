@@ -3,10 +3,12 @@ const app = express();
 const multer  = require('multer')
 const cors = require('cors')
 const bodyParser = require('body-parser')
-// const { dirname } = require('path');
+const { dirname } = require('path');
+// const upload = multer({ dest: `${appDir}/public/uploadImage` })
 const path = require('path')
 require('dotenv').config()
 // var bodyParser = require('body-parser');
+app.use('/',require('./pages/api/sangkhlaAPI'))
 app.use('/uploads', express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
@@ -15,6 +17,13 @@ const mongoose = require('mongoose')
 //     origin: '*'
 // }));
 // app.use(bodyParser.json())
+// app.use(
+//   cors({
+//     origin: true,
+//     credentials: true,
+//     optionsSuccessStatus: 200,
+//   }),
+// );
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header(
@@ -49,9 +58,10 @@ mongoose.connect(mongoURL,{
 })
 
 mongoose.connection.readyState==2?console.log('connected server...'):''
-app.use('/',require('./pages/api/sangkhlaAPI'))
+
 app.listen(8080,function(){
-    // console.log(appDir)
+    console.log(path.join(__dirname, 'public'))
+    console.log('dir name is',__dirname)
     console.log("server running on port 8080...");
 })
 ;
