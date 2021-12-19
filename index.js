@@ -8,7 +8,7 @@ const { dirname } = require('path');
 const path = require('path')
 require('dotenv').config()
 // var bodyParser = require('body-parser');
-app.use('/',require('./pages/api/sangkhlaAPI'))
+app.use('/',require('./api/sangkhlaAPI'))
 app.use('/uploads', express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json({limit: '50mb'}));
 // app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
