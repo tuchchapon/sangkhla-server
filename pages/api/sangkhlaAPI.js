@@ -50,7 +50,7 @@ const upload_driver_image = multer({ storage:driver_storage })
 const officer_storage = multer.diskStorage({
 
   destination:function(req,file,cb){
-    cb(null,`${appDir}/uploadImage/officer`)
+    cb(null,`${appDir}/public/uploadImage/officer`)
   },
   filename:function(req,file,cb){
     let _fileType = file.originalname.substring(file.originalname.indexOf("."));
@@ -196,7 +196,6 @@ const mongoURL = process.env.DB_URL
 
 router.route("/dbcheck").get((req, res) => {
     mongoose.connect(mongoURL, (err) => {
-      
       if (err) {
         return res
           .status(400)
@@ -204,7 +203,7 @@ router.route("/dbcheck").get((req, res) => {
       }
       return res
         .status(200)
-        .json({ status: 200, type: "success", payload: "success",path:__dirname });
+        .json({ status: 200, type: "success", payload: "success",path:__dirname  });
     });
   });
   //////////// create api ////////////
