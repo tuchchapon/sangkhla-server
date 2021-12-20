@@ -62,7 +62,8 @@ mongoose.connection.readyState==2?console.log('connected server...'):''
 app.listen(8080,function(){
     console.log(path.join(__dirname, 'public'))
     console.log('dir name is',__dirname)
+    console.log(mongoURL);
     console.log("server running on port 8080...");
 })
 ;
-module.exports = app
+// module.exports = app

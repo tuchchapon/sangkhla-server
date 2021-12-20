@@ -2,12 +2,12 @@
   "name": "sangkhla-server",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3001",
   "engines": {
     "node": "14.x"
   },
   "scripts": {
-    "start": "node index.js",
-    "build": "next build"
+    "start": "node index.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
