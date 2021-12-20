@@ -30,12 +30,11 @@ const appDir = dirname(require.main.filename);
 
 
 router.route("/check").get((req, res) => {
-  const ser_path = '../../public/uploadImage'
 
     img_path
     res
         .status(200)
-        .json({ status: 200, type: "success", payload: "success",path: dirname });
+        .json({ status: 200, type: "success", payload: "success",path: `${appDir}/public/uploadImage/driver` });
   });
 
 const driver_storage = multer.diskStorage({
