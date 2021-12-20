@@ -48,7 +48,7 @@ const mongoose = require('mongoose')
         //   next();
         // });
         
-        // app.use(express.json());
+        app.use(express.json());
         app.use('/',require('./pages/api/sangkhlaAPI'))
         const mongoURL = process.env.DB_URL
         mongoose.connect(mongoURL,{
@@ -66,4 +66,4 @@ app.listen(8080,function(){
     console.log("server running on port 8080...");
 })
 ;
-// module.exports = app
+module.exports = app
