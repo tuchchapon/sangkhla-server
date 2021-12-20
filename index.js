@@ -11,7 +11,9 @@ require('dotenv').config()
 app.use('/uploads', express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json({limit: '50mb'}));
 // app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+const mongoURL = "mongodb+srv://admin:1234@sangkhla.lm5wh.mongodb.net/Sangkhla2goDB"
 const mongoose = require('mongoose')
+const appDir = dirname(require.main.filename);
 // app.use(cors({
   //     origin: '*'
   // }));
@@ -50,7 +52,7 @@ const mongoose = require('mongoose')
         
         // app.use(express.json());
         app.use('/',require('./pages/api/sangkhlaAPI'))
-        const mongoURL = "mongodb+srv://admin:1234@sangkhla.lm5wh.mongodb.net/Sangkhla2goDB"
+
         mongoose.connect(mongoURL,{
           useNewUrlParser: true,
           useUnifiedTopology: true,
@@ -61,7 +63,7 @@ mongoose.connection.readyState==2?console.log('connected server...'):''
 
 app.listen(8080,function(){
     console.log(path.join(__dirname, 'public'))
-    console.log('dir name is',__dirname)
+    console.log('dir name is',appDir)
     console.log("server running on port 8080...");
 })
 ;

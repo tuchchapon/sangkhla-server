@@ -28,6 +28,16 @@ const JWT_SECRET ='sadkajsdj1k3sastichasasclsadnfjasltuSFKHSJKDAPI@$@QKFSJKSJDK'
 require('dotenv').config()
 const appDir = dirname(require.main.filename);
 
+
+router.route("/check").get((req, res) => {
+  const ser_path = '../../public/uploadImage'
+
+    img_path
+    res
+        .status(200)
+        .json({ status: 200, type: "success", payload: "success",path: dirname });
+  });
+
 const driver_storage = multer.diskStorage({
     destination:function(req,file,cb){
       cb(null,`${appDir}/public/uploadImage/driver`)
@@ -191,12 +201,12 @@ const accommodation_storage = multer.diskStorage({
 const  upload_accommodation_images = multer({ storage:accommodation_storage })
 
 
-const db_url ="mongodb+srv://admin:1234@sangkhla.lm5wh.mongodb.net/Sangkhla2goDB"
+const mongoURL = "mongodb+srv://admin:1234@sangkhla.lm5wh.mongodb.net/Sangkhla2goDB"
 
 router.route("/dbcheck").get((req, res) => {
-    mongoose.connect(db_url, (err) => {
+    mongoose.connect(mongoURL, (err) => {
       if (err) {
-        const ser_path = '../../public/uploadImage'
+        
         return res
           .status(400)
           .json({ status: 400, type: "failed", payload: err.message });
