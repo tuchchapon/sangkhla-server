@@ -191,7 +191,7 @@ const accommodation_storage = multer.diskStorage({
 const  upload_accommodation_images = multer({ storage:accommodation_storage })
 
 
-const mongoURL = process.env.DB_URL
+const mongoURL = "mongodb+srv://admin:1234@sangkhla.lm5wh.mongodb.net/Sangkhla2goDB"
 
 
 router.route("/dbcheck").get((req, res) => {
