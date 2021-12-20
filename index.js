@@ -48,9 +48,9 @@ const mongoose = require('mongoose')
         //   next();
         // });
         
-        app.use(express.json());
+        // app.use(express.json());
         app.use('/',require('./pages/api/sangkhlaAPI'))
-        const mongoURL = process.env.DB_URL
+        const mongoURL = "mongodb+srv://admin:1234@sangkhla.lm5wh.mongodb.net/Sangkhla2goDB"
         mongoose.connect(mongoURL,{
           useNewUrlParser: true,
           useUnifiedTopology: true,
@@ -62,7 +62,6 @@ mongoose.connection.readyState==2?console.log('connected server...'):''
 app.listen(8080,function(){
     console.log(path.join(__dirname, 'public'))
     console.log('dir name is',__dirname)
-    console.log(mongoURL);
     console.log("server running on port 8080...");
 })
 ;
