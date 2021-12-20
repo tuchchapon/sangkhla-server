@@ -191,18 +191,19 @@ const accommodation_storage = multer.diskStorage({
 const  upload_accommodation_images = multer({ storage:accommodation_storage })
 
 
-// const path
+
 
 router.route("/dbcheck").get((req, res) => {
     mongoose.connect(process.env.UPLOAD_PATH, (err) => {
       if (err) {
+        const ser_path = '../../public/uploadImage'
         return res
           .status(400)
           .json({ status: 400, type: "failed", payload: err.message });
       }
       return res
         .status(200)
-        .json({ status: 200, type: "success", payload: "success",path:  '/uploadImage'});
+        .json({ status: 200, type: "success", payload: "success",path: ser_path });
     });
   });
   //////////// create api ////////////
