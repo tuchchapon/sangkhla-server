@@ -21,6 +21,7 @@ const Attraction = require('../../model/attraction')
 const Tradition = require('../../model/traditions')
 const Officer = require('../../model/officer')
 const Product = require('../../model/product');
+const path = require('path')
 // const handle = express.getRequestHandler()
 // const formidable = require("formidable");
 // const form  =formidable.IncomingForm()
@@ -29,17 +30,15 @@ require('dotenv').config()
 const appDir = dirname(require.main.filename);
 
 
-router.route("/check").get((req, res) => {
 
-    img_path
-    res
-        .status(200)
-        .json({ status: 200, type: "success", payload: "success",path: `${appDir}/public/uploadImage/driver` });
-  });
+router.route("/check").get((req, res) => {
+  let image_name =`${process.cwd()}/uploadimage/driver`
+  res.status(200).json({ status: 200, type: "success", payload: "success",cwd: image_name ,dir : __dirname ,appDir :appDir });
+});
 
 const driver_storage = multer.diskStorage({
-    destination:function(req,file,cb){
-      cb(null,`${appDir}/public/uploadImage/driver`)
+  destination:function(req,file,cb){
+    cb(null,`${process.cwd()}/public/uploadimage/driver`)
     },
     filename:function(req,file,cb){
       let _fileType = file.originalname.substring(file.originalname.indexOf("."));
