@@ -8,6 +8,6 @@ module.exports = {
         LOCAL_API : "http://localhost:8080" ,
         LOCAL_IMAGE_PATH : "http://localhost:8080/uploads/uploadImage",
         FRONT_IMAGE_PATH : "http://localhost:8080/uploads",
-        UPLOAD_PATH : 'sangkhla-server.vercel.app'
+        UPLOAD_PATH : "https://sangkhla-server.vercel.app/"
     },
   }
