@@ -191,10 +191,10 @@ const accommodation_storage = multer.diskStorage({
 const  upload_accommodation_images = multer({ storage:accommodation_storage })
 
 
-
+const db_url ="mongodb+srv://admin:1234@sangkhla.lm5wh.mongodb.net/Sangkhla2goDB"
 
 router.route("/dbcheck").get((req, res) => {
-    mongoose.connect(process.env.UPLOAD_PATH, (err) => {
+    mongoose.connect(db_url, (err) => {
       if (err) {
         const ser_path = '../../public/uploadImage'
         return res
