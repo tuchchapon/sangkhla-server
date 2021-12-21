@@ -588,7 +588,6 @@ router.route("/dbcheck").get((req, res) => {
                 console.log('token is ',new_token);
             console.log(admin.email);
             let url =`${appDir}/resetPassword?token=${new_token}`
-            console.log('update admin is',updateAdmin);
              smtpTransport.verify()
             smtpTransport.sendMail({
               to:admin.email,
