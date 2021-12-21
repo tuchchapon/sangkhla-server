@@ -30,7 +30,6 @@ const path = require('path')
 const JWT_SECRET ='sadkajsdj1k3sastichasasclsadnfjasltuSFKHSJKDAPI@$@QKFSJKSJDK'
 require('dotenv').config()
 const appDir = dirname(require.main.filename);
-const app = express()
 
 
 router.route("/check").get((req, res) => {
