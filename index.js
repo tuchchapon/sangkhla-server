@@ -14,9 +14,9 @@ app.use(bodyParser.json({limit: '50mb'}));
 const mongoURL = "mongodb+srv://admin:1234@sangkhla.lm5wh.mongodb.net/Sangkhla2goDB"
 const mongoose = require('mongoose')
 const appDir = dirname(require.main.filename);
-// app.use(cors({
-//       origin: '*'
-//   }));
+app.use(cors({
+      origin: '*'
+  }));
   // app.use(bodyParser.json())
   // app.use(
     //   cors({
