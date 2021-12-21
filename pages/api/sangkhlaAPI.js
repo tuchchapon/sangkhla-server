@@ -37,7 +37,7 @@ router.route("/check").get((req, res) => {
   let image_name =`${process.cwd()}`
   let serpath = path
   console.log(object);
-  res.status(200).json({ status: 200,path:serpath ,cwd: image_name ,dir : __dirname ,appDir :appDir });
+  res.status(200).json({ status: 200,path:serpath ,cwd: image_name ,dir : __dirname  });
 });
 
 const driver_storage = multer.diskStorage({
