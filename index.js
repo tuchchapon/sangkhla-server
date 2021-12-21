@@ -4,19 +4,19 @@ const multer  = require('multer')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const { dirname } = require('path');
-// const upload = multer({ dest: `${appDir}/public/uploadImage` })
 const path = require('path')
 require('dotenv').config()
+// const upload = multer({ dest: `${appDir}/public/uploadImage` })
 // var bodyParser = require('body-parser');
 app.use('/uploads', express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.json({limit: '50mb'}));
 // app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser.json({limit: '50mb'}));
 const mongoURL = "mongodb+srv://admin:1234@sangkhla.lm5wh.mongodb.net/Sangkhla2goDB"
 const mongoose = require('mongoose')
 const appDir = dirname(require.main.filename);
 // app.use(cors({
-  //     origin: '*'
-  // }));
+//       origin: '*'
+//   }));
   // app.use(bodyParser.json())
   // app.use(
     //   cors({
@@ -43,14 +43,14 @@ const appDir = dirname(require.main.filename);
           }
           next();
         });
-        // app.all('*', function(req, res, next) {
-        //   res.header("Access-Control-Allow-Origin", "*");
-        //   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-        //   res.header('Access-Control-Allow-Headers', 'Content-Type');
-        //   next();
-        // });
+        app.all('*', function(req, res, next) {
+          res.header("Access-Control-Allow-Origin", "*");
+          res.header("Access-Control-Allow-Headers", "X-Requested-With");
+          res.header('Access-Control-Allow-Headers', 'Content-Type');
+          next();
+        });
         
-        // app.use(express.json());
+        app.use(express.json());
         app.use('/',require('./pages/api/sangkhlaAPI'))
 
         mongoose.connect(mongoURL,{

@@ -32,7 +32,7 @@ const appDir = dirname(require.main.filename);
 
 
 router.route("/check").get((req, res) => {
-  let image_name =`${process.cwd()}/uploadimage/driver`
+  let image_name =`${process.cwd()}/public/uploadImage/driver`
   res.status(200).json({ status: 200, type: "success", payload: "success",cwd: image_name ,dir : __dirname ,appDir :appDir });
 });
 
