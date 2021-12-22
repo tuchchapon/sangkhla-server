@@ -21,6 +21,10 @@ const Attraction = require('../../model/attraction')
 const Tradition = require('../../model/traditions')
 const Officer = require('../../model/officer')
 const Product = require('../../model/product');
+var url = require('url');
+  
+  
+
 // const driver_img = require('../')
 // const fs  = require("fs-extra")
 const path = require('path')
@@ -33,10 +37,12 @@ const appDir = dirname(require.main.filename);
 
 
 router.route("/check").get((req, res) => {
-  let image_name =`${process.cwd()}`
-  let serpath = path
-  console.log(object);
-  res.status(200).json({ status: 200,path:serpath ,cwd: image_name ,dir : __dirname  });
+  // const a = `${process.cwd}`
+// console.log(url.pathToFileURL(a)) 
+  let image_name =`/public/uploadImage`
+  let a = url.pathToFileURL(image_name)
+  console.log('a is',a);
+  res.status(200).json({ status: 200,cwd: image_name ,dir : __dirname , });
 });
 
 const driver_storage = multer.diskStorage({
@@ -587,7 +593,7 @@ router.route("/dbcheck").get((req, res) => {
                 console.log('update admin is',admin);
                 console.log('token is ',new_token);
             console.log(admin.email);
-            let url =`${appDir}/resetPassword?token=${new_token}`
+          let url =`${appDir}/resetPassword?token=${new_token}`
              smtpTransport.verify()
             smtpTransport.sendMail({
               to:admin.email,
@@ -643,15 +649,22 @@ router.route("/dbcheck").get((req, res) => {
 
     })
     router.route('/create/officer').post((req,res)=>{
+      console.log(req.body.youtube);
       const name = req.body.name
       const position = req.body.position
       const detail = req.body.detail
       const image = req.body.image
+      const fb = req.body.fb
+      const ig = req.body.ig
+      const youtube = req.body.youtube
       Officer.create({
         name,
         position,
         detail,
-        image
+        image,
+        fb,
+        ig,
+        youtube
       }).then((e) =>
       res.status(201).json({ status: true, message: "create data success" })
       ).catch(res.status(500));
@@ -1493,7 +1506,7 @@ router.route("/dbcheck").get((req, res) => {
     // edit officer api
     router.route('/edit/officer').post(async(req,res)=>{
       let id = req.body.id
-      
+      console.log(req.body.youtube);
       let new_officer =  await Officer.findOne({_id:new ObjectId(id)})
       
       if (!new_officer ) {
@@ -1503,6 +1516,9 @@ router.route("/dbcheck").get((req, res) => {
       new_officer.position = req.body.position
       new_officer.detail = req.body.detail
       new_officer.image = req.body.image
+      new_officer.fb = req.body.fb
+      new_officer.ig = req.body.ig
+      new_officer.youtube = req.body.youtube
       await new_officer.save()
       return res.status(200).json({status:200,type:'success',payload:'แก้ไขข้อมูลเรียบร้อยแล้ว'})
     })
