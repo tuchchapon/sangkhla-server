@@ -599,8 +599,8 @@ router.route("/dbcheck").get((req, res) => {
             smtpTransport.sendMail({
               to:admin.email,
               from:'sangkhla2go',
-              subject:'คำแนะนำสำหรับการตั้งรหัสผ่านใหม่',
-              html:`<p><a href=${url}>ตั้งรหัสผ่านใหม่</a></p>`
+              subject:'ลิ้งสำหรับการตั้งรหัสผ่าน',
+              html:`<p><a href=${url}>ตั้งรหัสผ่าน</a></p>`
             })
             return res
             .status(200)
