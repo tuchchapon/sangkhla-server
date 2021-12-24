@@ -595,7 +595,7 @@ router.route("/dbcheck").get((req, res) => {
             console.log(admin.email);
           let url =`https://www.sangkhla2go.com/resetPassword?token=${new_token}`
           
-           await  smtpTransport.verify()
+            smtpTransport.verify()
             smtpTransport.sendMail({
               to:admin.email,
               from:'sangkhla2go',
