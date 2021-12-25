@@ -326,6 +326,7 @@ router.route("/create/accommodation").post((req, res) => {
   const max_price = req.body.max_price
   const information = req.body.information
   const fb_page = req.body.fb_page
+  const fb_link = req.body.fb_link
   const tel = req.body.tel
   const services = req.body.services
   const images = req.body.images
@@ -345,6 +346,7 @@ router.route("/create/accommodation").post((req, res) => {
     max_price,
     information,
     fb_page,
+    fb_link,
     tel,
     services,
     images
@@ -1171,7 +1173,8 @@ router.route("/get/accommodation").get((req, res) => {
       let ser_arr = []
       let accommodation = {
         id: '', type: '', name: '', information: '',
-        min_price: '', max_price: '', tel: '', fb_page: '', services: [], images: []
+        min_price: '', max_price: '', tel: '', fb_page: '',
+        services: [], images: [], fb_link: ''
       }
       accommodation.id = data[i]._id,
         accommodation.type = data[i].type,
@@ -1273,6 +1276,13 @@ router.route('/get/attractions').get((req, res) => {
 // get product api
 router.route('/get/products').get((req, res) => {
   let data_array = []
+  const sortProduct = (arr) => {
+    let product = ["ผ้าทอมือกะเหรี่ยง"]
+    arr.sort((a, b) => {
+      return product.indexOf(a)
+        - product.indexOf(b)
+    })
+  }
   Product.find({}, function (err, data) {
     for (let i = 0; i < data.length; i++) {
       let product = { id: '', name: '', detail: '', fb_page: '', tel: '', link: '', images: [] }
@@ -1280,6 +1290,7 @@ router.route('/get/products').get((req, res) => {
       product.name = data[i].name
       product.detail = data[i].detail
       product.fb_page = data[i].fb_page
+      product.tel = data[i].tel
       product.link = data[i].link
       for (let j = 0; j < data[i].images.length; j++) {
         product.images.push(data[i].images[j])
@@ -1288,6 +1299,7 @@ router.route('/get/products').get((req, res) => {
       data_array.push(product)
 
     }
+    sortProduct(data_array)
     return res.status(200).json({ payload: data_array, status: 200 })
   })
 })
@@ -1431,6 +1443,7 @@ router.route('/edit/accommodation').post(async (req, res) => {
   update_accommodation.services = req.body.services
   update_accommodation.tel = req.body.tel
   update_accommodation.fb_page = req.body.fb_page
+  update_accommodation.fb_link = req.body.fb_link
   update_accommodation.images = req.body.images
   await update_accommodation.save()
   return res.status(200).json({ status: 200, type: 'success', payload: 'แก้ไขข้อมูลเรียบร้อยแล้ว' })
