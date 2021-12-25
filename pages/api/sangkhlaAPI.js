@@ -1277,7 +1277,7 @@ router.route('/get/attractions').get((req, res) => {
 router.route('/get/products').get((req, res) => {
   let data_array = []
   const sortProduct = (arr) => {
-    let product = ["ผ้าทอมือกะเหรี่ยง"]
+    let product = ["ผ้าทอมือกะเหรี่ยง", "สินค้าผ้าทอมือ",]
     arr.sort((a, b) => {
       return product.indexOf(a)
         - product.indexOf(b)
