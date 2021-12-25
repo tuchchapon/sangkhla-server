@@ -724,11 +724,14 @@ router.route("/get/boat-provider").get((req, res) => {
 //get driver location
 router.route('/get/driverLocation').get((req, res) => {
   let location_array = []
+  let first_array = []
+  let data_array = []
+  let filter = ["วินท่ารถตู้หน้าโรงพยาบาล", "วินหน้า ธ.กรุงไทย", "วินตรงข้าม ธ.กรุงไทย", "วินสะพานไม้ฝั่งมอญ", "วินตลาดฝั่งมอญ", "วินดงสัก", "วินกองทุนแม่", "วินสหกรณ์สังขละบุรี"]
   const sortLocation = (arr) => {
-    let location = ["วินท่ารถตู้หน้าโรงพยาบาล", "วินหน้า ธ.กรุงไทย", "วินตรงข้าม ธ.กรุงไทย", "วินสะพานไม้ฝั่งมอญ", "วินตลาดฝั่งมอญ", "วินดงสัก", "วินกองทุนแม่", "วินสหกรณ์สังขละบุรี"]
+
     arr.sort((a, b) => {
-      return location.indexOf(a.location_name)
-        - location.indexOf(b.location_name)
+      return filter.indexOf(a.location_name)
+        - filter.indexOf(b.location_name)
     })
   }
   DriverLocation.find({}, function (err, data) {
@@ -740,13 +743,21 @@ router.route('/get/driverLocation').get((req, res) => {
       location.id = data[i]._id
       location.location_name = data[i].location_name
       location.location_detail = data[i].location_detail
+      for (let j = 0; j < filter.length; j++) {
+        if (location.location_name === filter[j]) first_array.push(location)
+      }
       location_array.push(location)
     }
-    sortLocation(location_array)
+    sortLocation(first_array)
+    let uniq_location = first_array.concat(location_array)
+    // console.log(uniq_location);
+    console.log(first_array);
+
+    data_array = [...new Set(uniq_location)]
     return res.status(200).json({
       status: 200,
       type: 'success',
-      payload: location_array,
+      payload: data_array,
     })
   })
 })
@@ -1275,15 +1286,22 @@ router.route('/get/attractions').get((req, res) => {
 
 // get product api
 router.route('/get/products').get((req, res) => {
+
   let data_array = []
+  let all_product = []
+  let first_array = []
   const sortProduct = (arr) => {
-    let product = ["ผ้าทอมือกะเหรี่ยง", "สินค้าผ้าทอมือ",]
+    let product = ["ผ้าทอมือกะเหรี่ยง", "สินค้าผ้าทอมือ", "ไม้กวาดดอกหญ้า",]
     arr.sort((a, b) => {
+      console.log('a is', a.name);
       return product.indexOf(a.name)
         - product.indexOf(b.name)
     })
   }
   Product.find({}, function (err, data) {
+    if (err) {
+      res.send(err)
+    }
     for (let i = 0; i < data.length; i++) {
       let product = { id: '', name: '', detail: '', fb_page: '', tel: '', link: '', images: [] }
       product.id = data[i]._id
@@ -1296,11 +1314,14 @@ router.route('/get/products').get((req, res) => {
         product.images.push(data[i].images[j])
 
       }
-      data_array.push(product)
-
+      product.name === "ผ้าทอมือกะเหรี่ยง" || product.name === "สินค้าผ้าทอมือ" ||
+        product.name === "ไม้กวาดดอกหญ้า" ? first_array.push(product) : data_array.push(product)
     }
-    sortProduct(data_array)
-    return res.status(200).json({ payload: data_array, status: 200 })
+    sortProduct(first_array)
+    all_product = first_array.concat(data_array)
+    console.log(first_array);
+    // console.log('after arr', data_array);
+    return res.status(200).json({ payload: all_product, status: 200 })
   })
 })
 

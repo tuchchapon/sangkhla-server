@@ -64,10 +64,10 @@ mongoose.connect(mongoURL, {
 
 mongoose.connection.readyState == 2 ? console.log('connected server...') : ''
 
-app.listen(8080, function () {
+app.listen(3001, function () {
   console.log(path.join(__dirname, 'public'))
   console.log('dir name is', appDir)
-  console.log("server running on port 8080...");
+  console.log("server running on port 3001...");
 })
   ;
 module.exports = app
