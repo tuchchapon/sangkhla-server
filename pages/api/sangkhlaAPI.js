@@ -740,7 +740,6 @@ router.route('/get/driverLocation').get((req, res) => {
       location.location_detail = data[i].location_detail
       location_array.push(location)
     }
-    console.log('location arr is sort is', location_array)
     sortLocation(location_array)
     return res.status(200).json({
       status: 200,
