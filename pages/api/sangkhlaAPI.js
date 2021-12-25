@@ -21,13 +21,6 @@ const Attraction = require('../../model/attraction')
 const Tradition = require('../../model/traditions')
 const Officer = require('../../model/officer')
 const Product = require('../../model/product');
-var url = require('url');
-
-
-
-// const driver_img = require('../')
-// const fs  = require("fs-extra")
-const path = require('path')
 // const handle = express.getRequestHandler()
 // const formidable = require("formidable");
 // const form  =formidable.IncomingForm()
@@ -35,19 +28,9 @@ const JWT_SECRET = 'sadkajsdj1k3sastichasasclsadnfjasltuSFKHSJKDAPI@$@QKFSJKSJDK
 require('dotenv').config()
 const appDir = dirname(require.main.filename);
 
-
-router.route("/check").get((req, res) => {
-  // const a = `${process.cwd}`
-  // console.log(url.pathToFileURL(a)) 
-  let image_name = `/public/uploadImage`
-  let a = url.pathToFileURL(image_name)
-  console.log('a is', a);
-  res.status(200).json({ status: 200, cwd: image_name, dir: __dirname, });
-});
-
 const driver_storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, `${process.cwd()}`)
+    cb(null, `${appDir}/public/uploadImage/driver`)
   },
   filename: function (req, file, cb) {
     let _fileType = file.originalname.substring(file.originalname.indexOf("."));
@@ -208,20 +191,16 @@ const accommodation_storage = multer.diskStorage({
 const upload_accommodation_images = multer({ storage: accommodation_storage })
 
 
-const mongoURL = "mongodb+srv://admin:1234@sangkhla.lm5wh.mongodb.net/Sangkhla2goDB"
+const mongoURL = process.env.DB_URL
 
-router.route("/dbcheck").get((req, res) => {
-  mongoose.connect(mongoURL, (err) => {
-    if (err) {
 
-      return res
-        .status(400)
-        .json({ status: 400, type: "failed", payload: err.message });
-    }
-    return res
-      .status(200)
-      .json({ status: 200, type: "success", payload: "success", path: ser_path });
-  });
+router.route("/check").get((req, res) => {
+  // const a = `${process.cwd}`
+  // console.log(url.pathToFileURL(a)) 
+  let image_name = `${__dirname}`
+  let a = url.pathToFileURL(image_name)
+  console.log('a is', a);
+  res.status(200).json({ status: 200, cwd: image_name, dir: __dirname, });
 });
 //////////// create api ////////////
 
@@ -600,14 +579,14 @@ router.route('/forgot-password/').post(async (req, res) => {
         console.log('update admin is', admin);
         console.log('token is ', new_token);
         console.log(admin.email);
-        let url = `https://www.sangkhla2go.com/resetPassword?token=${new_token}`
-
+        let url = `${appDir}/resetPassword?token=${new_token}`
+        console.log('update admin is', updateAdmin);
         smtpTransport.verify()
         smtpTransport.sendMail({
           to: admin.email,
           from: 'sangkhla2go',
-          subject: 'ลิ้งสำหรับการตั้งรหัสผ่าน',
-          html: `<p><a href=${url}>ตั้งรหัสผ่าน</a></p>`
+          subject: 'คำแนะนำสำหรับการตั้งรหัสผ่านใหม่',
+          html: `<p><a href=${url}>ตั้งรหัสผ่านใหม่</a></p>`
         })
         return res
           .status(200)
@@ -744,7 +723,7 @@ router.route("/get/boat-provider").get((req, res) => {
 router.route('/get/driverLocation').get((req, res) => {
   let location_array = []
   const sortLocation = (arr) => {
-    let location = ['วินท่ารถตู้หน้าโรงพยาบาล', 'วินหน้า ธ.กรุงไทย', 'วินตรงข้าม ธ.กรุงไทย', 'วินสะพานไม้ฝั่งมอญ', 'วินตลาดฝั่งมอญ', 'วินดงสัก', 'วินกองทุนแม่', 'วินสหกรณ์สังขละบุรี']
+    let location = ["วินท่ารถตู้หน้าโรงพยาบาล", "วินหน้า ธ.กรุงไทย", "วินตรงข้าม ธ.กรุงไทย", "วินสะพานไม้ฝั่งมอญ", "วินตลาดฝั่งมอญ", "วินดงสัก", "วินกองทุนแม่", "วินสหกรณ์สังขละบุรี"]
     arr.sort((a, b) => {
       return location.indexOf(a.location_name)
         - location.indexOf(b.location_name)
@@ -761,6 +740,7 @@ router.route('/get/driverLocation').get((req, res) => {
       location.location_detail = data[i].location_detail
       location_array.push(location)
     }
+    console.log('location arr is sort is', location_array)
     sortLocation(location_array)
     return res.status(200).json({
       status: 200,
@@ -898,7 +878,7 @@ router.route('/get/officer/:id').post((req, res) => {
       if (err) {
         res.send(err)
       }
-      let officer = { id: '', name: '', position: '', detail: '', image: '' }
+      let officer = { id: '', name: '', position: '', detail: '', image: '', fb: '', youtube: '', ig: '' }
       officer.id = data._id
       officer.name = data.name
       officer.position = data.position
@@ -1117,13 +1097,16 @@ router.route("/get/officers").get((req, res) => {
       res.send(err)
     }
     for (let i = 0; i < data.length; i++) {
-      let officer = { id: '', position: '', name: '', detail: '', image: '' }
+      let officer = { id: '', position: '', name: '', detail: '', image: '', fb: '', ig: '', youtube: '' }
       // const element = data[i];
       officer.id = data[i]._id
       officer.position = data[i].position
       officer.name = data[i].name
       officer.detail = data[i].detail
       officer.image = data[i].image
+      officer.fb = data[i].fb
+      officer.ig = data[i].ig
+      officer.youtube = data[i].youtube
       if (data[i].position === "หัวหน้าโครงการ") leader = officer
       if (data[i].position === "ที่ปรึกษา") consultant.push(officer)
       if (data[i].position === "ผู้ประสานงาน") coordinator.push(officer)
@@ -1266,6 +1249,7 @@ router.route('/get/attractions').get((req, res) => {
   let nature_attraction = []
   let tradition_attraction = []
   let agri_attraction = []
+
   Attraction.find({}, function (err, data) {
 
     for (let i = 0; i < data.length; i++) {
