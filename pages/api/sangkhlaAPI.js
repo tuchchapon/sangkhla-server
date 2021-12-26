@@ -1532,7 +1532,7 @@ router.route('/edit/restaurant').post(async (req, res) => {
   let id = req.body._id
 
   let update_restaurant = await Restaurant.findOne({ _id: new ObjectId(id) })
-  if (!req.body.name || !req.body.location || !req.body.type) {
+  if (!req.body.name) {
     return res.status(400).json({ status: 400, type: 'failed', payload: 'กรุณากรอกข้อมูลให้ครบถ้วน' })
   }
   update_restaurant.name = req.body.name
