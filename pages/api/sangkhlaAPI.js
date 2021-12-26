@@ -1256,7 +1256,7 @@ router.route('/get/restaurant').get((req, res) => {
 
 
 //get attraction index 
-router.route('/get/indexAttraction').get((req, res) => {
+router.route('/get/init-attraction').get((req, res) => {
   let data_array = []
   let indexAttraction = ["พระเจดีย์สามองค์", "เจดีย์พุทธคยา", "ห้วยซองกาเรีย", "วัดวังก์วิเวการาม", "สะพานอุตตมานุสรณ์ (สะพานมอญ)", "จุดชมทิวทัศน์สังขละบุรี", "เมืองบาดาล วัดจมน้ำ"]
   const sortAttraction = (arr) => {
