@@ -606,6 +606,7 @@ router.route('/create/attraction').post((req, res) => {
   const name = req.body.name
   const detail = req.body.detail
   const images = req.body.images
+  name.trim()
   Attraction.create({
     type,
     name,
@@ -744,7 +745,7 @@ router.route('/get/driverLocation').get((req, res) => {
       location.location_name = data[i].location_name
       location.location_detail = data[i].location_detail
       for (let j = 0; j < filter.length; j++) {
-        if (location.location_name === filter[j]) first_array.push(location)
+        if (location.location_name.trim() === filter[j]) first_array.push(location)
       }
       location_array.push(location)
     }
@@ -1254,7 +1255,46 @@ router.route('/get/restaurant').get((req, res) => {
 })
 
 
-//get attraction type api
+//get attraction index 
+router.route('/get/indexAttraction').get((req, res) => {
+  let data_array = []
+  let indexAttraction = ["พระเจดีย์สามองค์", "เจดีย์พุทธคยา", "ห้วยซองกาเรีย", "วัดวังก์วิเวการาม", "สะพานอุตตมานุสรณ์ (สะพานมอญ)", "จุดชมทิวทัศน์สังขละบุรี", "เมืองบาดาล วัดจมน้ำ"]
+  const sortAttraction = (arr) => {
+
+    arr.sort((a, b) => {
+      // console.log('a is', a.name);
+      return indexAttraction.indexOf(a.name)
+        - indexAttraction.indexOf(b.name)
+    })
+  }
+
+  Attraction.find({}, function (err, data) {
+
+    for (let i = 0; i < data.length; i++) {
+
+      let attraction = { id: '', type: '', name: '', detail: '', images: [] }
+      attraction.id = data[i]._id
+      attraction.type = data[i].type
+      attraction.name = data[i].name
+      attraction.detail = data[i].detail
+      for (let j = 0; j < data[i].images.length; j++) {
+        attraction.images.push(data[i].images[j])
+      }
+      for (let k = 0; k < indexAttraction.length; k++) {
+
+        if (attraction.name.trim() === indexAttraction[k]) {
+          data_array.push(attraction)
+
+        }
+      }
+
+    }
+    sortAttraction(data_array)
+    console.log('data_array is', data_array);
+    console.log('lenght is', data_array.length,);
+    return res.status(200).json({ payload: data_array, status: 200 })
+  })
+})
 
 // get attraction api 
 router.route('/get/attractions').get((req, res) => {
@@ -1539,7 +1579,7 @@ router.route('/edit/attraction').post(async (req, res) => {
   if (!update_attraction) {
     return res.status(400).json({ status: 400, type: 'failed', payload: 'ข้อมูลที่ส่งมาไม่ครบถ้วน' })
   }
-  update_attraction.name = req.body.name
+  update_attraction.name = req.body.name.trim()
   update_attraction.type = req.body.type
   update_attraction.detail = req.body.detail
   update_attraction.images = req.body.images
