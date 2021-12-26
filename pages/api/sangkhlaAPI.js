@@ -293,6 +293,8 @@ router.route("/create/restaurant").post((req, res) => {
   const drink_max_price = req.body.drink_max_price
   const images = req.body.images;
   const fb_page = req.body.fb_page
+  const fb_link = req.body.fb_link
+  const line = req.body.line
   const tel = req.body.tel;
   const services = req.body.services;
 
@@ -309,6 +311,8 @@ router.route("/create/restaurant").post((req, res) => {
     drink_max_price,
     images,
     fb_page,
+    fb_link,
+    line,
     tel,
     services
   }).then((e) =>
@@ -1219,7 +1223,7 @@ router.route('/get/restaurant').get((req, res) => {
       let restaurant = {
         id: '', type: [], name: '', services: [], location: '', recommend_menu: '',
         food_min_price: '', food_max_price: '', drink_min_price: '', drink_max_price: '', open_time: '', close_time: ''
-        , images: [], tel: '', fb_page: ''
+        , images: [], tel: '', fb_page: '', fb_link: '', line: ''
       }
       restaurant.id = data[i]._id
       restaurant.name = data[i].name
@@ -1233,6 +1237,8 @@ router.route('/get/restaurant').get((req, res) => {
       restaurant.close_time = data[i].close_time
       restaurant.tel = data[i].tel
       restaurant.fb_page = data[i].fb_page
+      restaurant.fb_link = data[i].fb_link
+      restaurant.line = data[i].line
       for (let j = 0; j < data[i].images.length; j++) {
         restaurant.images.push(data[i].images[j])
       }
@@ -1541,6 +1547,8 @@ router.route('/edit/restaurant').post(async (req, res) => {
   update_restaurant.drink_max_price = req.body.drink_max_price
   update_restaurant.tel = req.body.tel
   update_restaurant.fb_page = req.body.fb_page
+  update_restaurant.fb_link = req.body.fb_link
+  update_restaurant.line = req.body.line
   update_restaurant.services = req.body.services
   update_restaurant.images = req.body.images
   await update_restaurant.save()
