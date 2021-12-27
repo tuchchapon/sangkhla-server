@@ -324,6 +324,7 @@ router.route("/create/restaurant").post((req, res) => {
 
 // create accommodation  api
 router.route("/create/accommodation").post((req, res) => {
+  console.log(req.body.fb_link);
   const name = req.body.name
   const type = req.body.type
   const min_price = req.body.min_price
@@ -1197,9 +1198,10 @@ router.route("/get/accommodation").get((req, res) => {
         accommodation.name = data[i].name,
         accommodation.information = data[i].information,
         accommodation.min_price = data[i].min_price,
-        accommodation.max_price = data[i].max_price
-      accommodation.fb_page = data[i].fb_page
-      accommodation.tel = data[i].tel
+        accommodation.max_price = data[i].max_price,
+        accommodation.fb_page = data[i].fb_page,
+        accommodation.fb_link = data[i].fb_link,
+        accommodation.tel = data[i].tel
       for (let j = 0; j < data[i].services.length; j++) {
         ser_arr.push(data[i].services[j])
       }
@@ -1210,7 +1212,7 @@ router.route("/get/accommodation").get((req, res) => {
       accommodation.services = ser_arr
       data_array.push(accommodation)
     }
-    return res.status(200).json({ payload: data_array, status: 200 })
+    return res.status(200).json({ payload: data_array, status: 200, length: data.length })
 
   })
 })
