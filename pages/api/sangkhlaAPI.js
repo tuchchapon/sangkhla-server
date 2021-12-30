@@ -597,8 +597,7 @@ router.route('/forgot-password/').post(async (req, res) => {
           return res
             .json({ status: 200, type: 'success', payload: "เราส่งวิธีการเปลี่ยนรหัสผ่านไปที่อีเมลของท่านแล้ว " })
         })
-        return res
-          .json({ status: 200, type: 'success', payload: "เราส่งวิธีการเปลี่ยนรหัสผ่านไปที่อีเมลของท่านแล้ว " })
+
       } catch (error) {
         console.log(error);
       }
