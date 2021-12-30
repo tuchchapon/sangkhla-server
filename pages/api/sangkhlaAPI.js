@@ -591,12 +591,13 @@ router.route('/forgot-password/').post(async (req, res) => {
         smtpTransport.sendMail({
           to: admin.email,
           from: 'sangkhla2go',
-          subject: 'คำแนะนำสำหรับการตั้งรหัสผ่านใหม่',
+          subject: 'การตั้งค่ารหัสผ่านใหม่',
           html: `<p><a href=${url}>ตั้งรหัสผ่านใหม่</a></p>`
+        }).then((res) => {
+          return res
+            .status(200)
+            .json({ status: 200, type: 'success', payload: "เราส่งวิธีการเปลี่ยนรหัสผ่านไปที่อีเมลของท่านแล้ว " })
         })
-        return res
-          .status(200)
-          .json({ status: 200, type: 'success', payload: "เราส่งวิธีการเปลี่ยนรหัสผ่านไปที่อีเมลของท่านแล้ว " })
       } catch (error) {
         console.log(error);
       }
