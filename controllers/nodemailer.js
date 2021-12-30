@@ -3,13 +3,13 @@ const nodemailer = require('nodemailer')
 
 // sendgrid mailer setting
 const smtpTransport = nodemailer.createTransport({
-    port: 465,
-    host: 'smtp.gmail.com',
-    auth:{
-        user: 'tuchchapon@tripniceday.com',
-        pass : 'tuchtnd2539'
-    },
-    secure:true,
+  port: 465,
+  host: 'smtp.gmail.com',
+  auth: {
+    user: 'sangkhla2go@gmail.com',
+    pass: 'admin_sangkhla2go'
+  },
+  secure: true,
 })
 
 // const handlebarsOptions = {

@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer')
-const { dirname } = require('path');
+const { dirname, resolve } = require('path');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const router = express.Router();
@@ -21,6 +21,7 @@ const Attraction = require('../../model/attraction')
 const Tradition = require('../../model/traditions')
 const Officer = require('../../model/officer')
 const Product = require('../../model/product');
+
 // const handle = express.getRequestHandler()
 // const formidable = require("formidable");
 // const form  =formidable.IncomingForm()
@@ -566,7 +567,7 @@ router.route('/forgot-password/').post(async (req, res) => {
   if (!req.body) {
     return res.status(400).json({ status: 400, type: 'failed', })
   }
-  Admins.findOne({ email: new_admin_password.email.toLowerCase().trim() }, (err, admin) => {
+  Admins.findOne({ email: new_admin_password.email.toLowerCase().trim() }, async (err, admin) => {
 
     if (err) {
       return res.status(400).json({ status: 400, type: 'failed', payload: err })
@@ -587,20 +588,28 @@ router.route('/forgot-password/').post(async (req, res) => {
         console.log('token is ', new_token);
         console.log(admin.email);
         let url = `https://www.sangkhla2go.com/resetPassword?token=${new_token}`
-        smtpTransport.verify()
-        smtpTransport.sendMail({
-          to: admin.email,
-          from: 'sangkhla2go',
-          subject: 'การตั้งค่ารหัสผ่านใหม่',
-          html: `<p><a href=${url}>ตั้งรหัสผ่านใหม่</a></p>`
-        }).then((res) => {
-          return res
-            .json({ status: 200, type: 'success', payload: "เราส่งวิธีการเปลี่ยนรหัสผ่านไปที่อีเมลของท่านแล้ว " })
+        await new Promise((resolve, reject) => {
+
+          smtpTransport.verify()
+          smtpTransport.sendMail({
+            to: admin.email,
+            from: 'sangkhla2go',
+            subject: 'การตั้งค่ารหัสผ่านใหม่',
+            html: `<p><a href=${url}>ตั้งรหัสผ่านใหม่</a></p>`
+          }, function (err, info) {
+            if (err) {
+              console.log('err is', err);
+              reject(err)
+            }
+            else {
+              resolve(info)
+              return res
+                .json({ status: 200, type: 'success', payload: "เราส่งวิธีการเปลี่ยนรหัสผ่านไปที่อีเมลของท่านแล้ว " })
+            }
+
+          })
+
         })
-        setTimeout(() => {
-          return res
-            .json({ status: 200, type: 'success', payload: "เราส่งวิธีการเปลี่ยนรหัสผ่านไปที่อีเมลของท่านแล้ว " })
-        }, 5000);
       } catch (error) {
         console.log(error);
       }
