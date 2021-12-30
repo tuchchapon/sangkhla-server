@@ -704,6 +704,52 @@ router.route('/create/product').post((req, res) => {
 
 /////////////////////// GET API ///////////////////////////////////////
 
+// get data length api
+router.route('/get/data-length').get((req, res) => {
+  let restaurant = Restaurant.find()
+  let accommodation = Accommodation.find()
+  let driver = Drivers.find()
+  let boat = BoatProvider.find()
+  let product = Product.find()
+  let attraction = Attraction.find()
+  let tradition = Tradition.find()
+  let review = Reviews.find()
+  restaurant.count((err, res_count) => {
+    if (err) res.send(err)
+    accommodation.count((err, accom_count) => {
+      if (err) res.send(err)
+      driver.count((err, driver_count) => {
+        if (err) res.send(err)
+        boat.count((err, boat_count) => {
+          if (err) res.send(err)
+          product.count((err, product_count) => {
+            if (err) res.send(err)
+            attraction.count((err, attraction_count) => {
+              if (err) res.send(err)
+              tradition.count((err, tradition_count) => {
+                if (err) res.send(err)
+                review.count((err, review_count) => {
+                  if (err) res.send(err)
+                  return res.status(200).json({
+                    status: 200,
+                    type: 'success',
+                    payload: { restaurant: res_count, accom: accom_count, driver: driver_count, boat: boat_count, product: product_count, attraction: attraction_count, tradition: tradition_count, review: review_count }
+                  })
+                })
+              })
+            })
+          })
+        })
+      })
+    })
+    // console.log(count);
+  })
+
+
+
+
+
+})
 //get boat tour provider api
 router.route("/get/boat-provider").get((req, res) => {
   let data_array = []
