@@ -587,7 +587,6 @@ router.route('/forgot-password/').post(async (req, res) => {
         console.log('token is ', new_token);
         console.log(admin.email);
         let url = `${appDir}/resetPassword?token=${new_token}`
-        console.log('update admin is', updateAdmin);
         smtpTransport.verify()
         smtpTransport.sendMail({
           to: admin.email,
@@ -757,7 +756,7 @@ router.route('/get/driverLocation').get((req, res) => {
     sortLocation(first_array)
     let uniq_location = first_array.concat(location_array)
     // console.log(uniq_location);
-    console.log(first_array);
+    // console.log(first_array);
 
     data_array = [...new Set(uniq_location)]
     return res.status(200).json({
@@ -1298,8 +1297,8 @@ router.route('/get/init-attraction').get((req, res) => {
 
     }
     sortAttraction(data_array)
-    console.log('data_array is', data_array);
-    console.log('lenght is', data_array.length,);
+    // console.log('data_array is', data_array);
+    // console.log('lenght is', data_array.length,);
     return res.status(200).json({ payload: data_array, status: 200 })
   })
 })
@@ -1341,7 +1340,7 @@ router.route('/get/products').get((req, res) => {
   const sortProduct = (arr) => {
     let product = ["ผ้าทอมือกะเหรี่ยง", "สินค้าผ้าทอมือ", "ไม้กวาดดอกหญ้า",]
     arr.sort((a, b) => {
-      console.log('a is', a.name);
+      // console.log('a is', a.name);
       return product.indexOf(a.name)
         - product.indexOf(b.name)
     })
@@ -1367,7 +1366,7 @@ router.route('/get/products').get((req, res) => {
     }
     sortProduct(first_array)
     all_product = first_array.concat(data_array)
-    console.log(first_array);
+    // console.log(first_array);
     // console.log('after arr', data_array);
     return res.status(200).json({ payload: all_product, status: 200 })
   })
