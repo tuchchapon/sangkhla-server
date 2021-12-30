@@ -586,7 +586,7 @@ router.route('/forgot-password/').post(async (req, res) => {
         console.log('update admin is', admin);
         console.log('token is ', new_token);
         console.log(admin.email);
-        let url = `${appDir}/resetPassword?token=${new_token}`
+        let url = `https://www.sangkhla2go.com/resetPassword?token=${new_token}`
         smtpTransport.verify()
         smtpTransport.sendMail({
           to: admin.email,
@@ -595,7 +595,6 @@ router.route('/forgot-password/').post(async (req, res) => {
           html: `<p><a href=${url}>ตั้งรหัสผ่านใหม่</a></p>`
         }).then((res) => {
           return res
-            .status(200)
             .json({ status: 200, type: 'success', payload: "เราส่งวิธีการเปลี่ยนรหัสผ่านไปที่อีเมลของท่านแล้ว " })
         })
       } catch (error) {
