@@ -574,8 +574,8 @@ router.route('/forgot-password/').post(async (req, res) => {
     }
     if (!admin) {
       return res
-        .status(404)
-        .json({ status: 404, type: 'failed', payload: 'ไม่พบอีเมล์ผู้ใช้งาน' })
+        .status(400)
+        .json({ status: 400, type: 'failed', payload: 'ไม่พบอีเมล์ผู้ใช้งาน' })
     }
     else {
       let new_token = randomstring.generate(32)
