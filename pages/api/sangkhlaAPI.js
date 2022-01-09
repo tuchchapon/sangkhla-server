@@ -1366,6 +1366,47 @@ router.route('/get/init-attraction').get((req, res) => {
   })
 })
 
+//get attraction index mobile and tablet screen
+router.route('/get/init-attraction-mobile').get((req, res) => {
+  let data_array = []
+  let indexAttraction = ["เมืองบาดาล วัดจมน้ำ", "พระเจดีย์สามองค์", "เจดีย์พุทธคยา", "ห้วยซองกาเรีย", "วัดวังก์วิเวการาม", "สะพานอุตตมานุสรณ์ (สะพานมอญ)", "จุดชมทิวทัศน์สังขละบุรี"]
+  const sortAttraction = (arr) => {
+
+    arr.sort((a, b) => {
+      // console.log('a is', a.name);
+      return indexAttraction.indexOf(a.name)
+        - indexAttraction.indexOf(b.name)
+    })
+  }
+
+  Attraction.find({}, function (err, data) {
+
+    for (let i = 0; i < data.length; i++) {
+
+      let attraction = { id: '', type: '', name: '', detail: '', images: [] }
+      attraction.id = data[i]._id
+      attraction.type = data[i].type
+      attraction.name = data[i].name
+      attraction.detail = data[i].detail
+      for (let j = 0; j < data[i].images.length; j++) {
+        attraction.images.push(data[i].images[j])
+      }
+      for (let k = 0; k < indexAttraction.length; k++) {
+
+        if (attraction.name.trim() === indexAttraction[k]) {
+          data_array.push(attraction)
+
+        }
+      }
+
+    }
+    sortAttraction(data_array)
+    // console.log('data_array is', data_array);
+    // console.log('lenght is', data_array.length,);
+    return res.status(200).json({ payload: data_array, status: 200 })
+  })
+})
+
 // get attraction api 
 router.route('/get/attractions').get((req, res) => {
   let data_array = []
