@@ -1270,7 +1270,7 @@ router.route("/get/accommodation").get((req, res) => {
       }
       sortService(ser_arr)
       accommodation.services = ser_arr
-      accommodation.type.includes("แพพัก") ? boat_house_array.push(accommodation) : !accommodation.type.includes("แพพัก") && hotel_array.length < 5 ? hotel_array.push(accommodation) : ''
+      accommodation.type.includes("แพพัก") ? boat_house_array.push(accommodation) : !accommodation.type.includes("แพพัก") && hotel_array.length < 40 ? hotel_array.push(accommodation) : ''
 
       data_array.push(accommodation)
     }
