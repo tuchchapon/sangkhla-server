@@ -1233,6 +1233,8 @@ router.route("/get/catagory").get((req, res) => {
 // get acommodation api
 router.route("/get/accommodation").get((req, res) => {
   let data_array = []
+  let hotel_array = []
+  let boat_house_array = []
   const sortService = (arr) => {
     let service = ["ลานจอดรถ", "สระว่ายน้ำ", "Wi-Fi", "ห้องน้ำส่วนตัว", "ร้านอาหาร", "ห้องประชุม", "เช่ารายเดือน", "ลานกางเต็นท์", "อาหารเช้า", "บริการลากแพ", "คาราโอเกะ"]
     arr.sort((a, b) => {
@@ -1268,9 +1270,10 @@ router.route("/get/accommodation").get((req, res) => {
       }
       sortService(ser_arr)
       accommodation.services = ser_arr
+      accommodation.type.includes("แพพัก") ? boat_house_array.push(accommodation) : hotel_array.push(accommodation)
       data_array.push(accommodation)
     }
-    return res.status(200).json({ payload: data_array, status: 200, length: data.length })
+    return res.status(200).json({ payload: data_array, status: 200, length: data.length, hotel: hotel_array, boat_house: boat_house_array })
 
   })
 })
