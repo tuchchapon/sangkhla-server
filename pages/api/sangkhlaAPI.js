@@ -1233,7 +1233,8 @@ router.route("/get/catagory").get((req, res) => {
 // get acommodation api
 router.route("/get/accommodation").get((req, res) => {
   let data_array = []
-  let hotel_array = []
+  let homepage_hotel = []
+  let all_hotel = []
   let boat_house_array = []
   const sortService = (arr) => {
     let service = ["ลานจอดรถ", "สระว่ายน้ำ", "Wi-Fi", "ห้องน้ำส่วนตัว", "ร้านอาหาร", "ห้องประชุม", "เช่ารายเดือน", "ลานกางเต็นท์", "อาหารเช้า", "บริการลากแพ", "คาราโอเกะ"]
@@ -1270,11 +1271,12 @@ router.route("/get/accommodation").get((req, res) => {
       }
       sortService(ser_arr)
       accommodation.services = ser_arr
-      accommodation.type.includes("แพพัก") ? boat_house_array.push(accommodation) : !accommodation.type.includes("แพพัก") && hotel_array.length < 40 ? hotel_array.push(accommodation) : ''
+      accommodation.type.includes("แพพัก") ? null : all_hotel.push(accommodation)
+      accommodation.type.includes("แพพัก") ? boat_house_array.push(accommodation) : !accommodation.type.includes("แพพัก") && homepage_hotel.length < 40 ? homepage_hotel.push(accommodation) : ''
 
       data_array.push(accommodation)
     }
-    return res.status(200).json({ payload: data_array, status: 200, length: data.length, hotel: hotel_array, boat_house: boat_house_array })
+    return res.status(200).json({ payload: data_array, status: 200, length: data.length, hotel: homepage_hotel, boat_house: boat_house_array, all_hotel: all_hotel })
 
   })
 })
