@@ -1326,6 +1326,7 @@ router.route("/get/accom-sort").get((req, res) => {
         accommodation.images.push(data[i].images[k])
       }
       sortService(ser_arr)
+      accommodation.services = ser_arr
       accommodation.type.includes("โรงแรม") ? hotel_arr.push(accommodation) : accommodation.type.includes("แพพัก") ? boat_house_arr.push(accommodation) :
         accommodation.type.includes("โฮมสเตย์") ? home_stay_arr.push(accommodation) : accommodation.type.includes("เรือนรับรอง") ? house_arr.push(accommodation) :
           accommodation.type.includes("รีสอร์ท") ? resort_arr.push(accommodation) : accommodation.type.includes("โฮสเทล") ? host_tel_arr.push(accommodation) :
