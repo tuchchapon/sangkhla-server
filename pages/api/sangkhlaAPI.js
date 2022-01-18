@@ -1271,13 +1271,72 @@ router.route("/get/accommodation").get((req, res) => {
       }
       sortService(ser_arr)
       accommodation.services = ser_arr
-      accommodation.type.includes("แพพัก") ? null : all_hotel.push(accommodation)
+      // accommodation.type.includes("แพพัก") ? null : all_hotel.push(accommodation)
       accommodation.type.includes("แพพัก") ? boat_house_array.push(accommodation) : !accommodation.type.includes("แพพัก") && homepage_hotel.length < 40 ? homepage_hotel.push(accommodation) : ''
 
-      data_array.push(accommodation)
+
     }
     return res.status(200).json({ payload: data_array, status: 200, length: data.length, hotel: homepage_hotel, boat_house: boat_house_array, all_hotel: all_hotel })
 
+  })
+})
+
+// get accommodation sort 6 type 
+router.route("/get/accom-sort").get((req, res) => {
+  let hotel_arr = []
+  let gest_house_arr = []
+  let resort_arr = []
+  let house_arr = []
+  let host_tel_arr = []
+  let home_stay_arr = []
+  let boat_house_arr = []
+
+  const sortService = (arr) => {
+    let service = ["ลานจอดรถ", "สระว่ายน้ำ", "Wi-Fi", "ห้องน้ำส่วนตัว", "ร้านอาหาร", "ห้องประชุม", "เช่ารายเดือน", "ลานกางเต็นท์", "อาหารเช้า", "บริการลากแพ", "คาราโอเกะ"]
+    arr.sort((a, b) => {
+      return service.indexOf(a)
+        - service.indexOf(b)
+    })
+  }
+  Accommodation.find({}, function (err, data) {
+    if (err) {
+      res.send(err)
+    }
+    for (let i = 0; i < data.length; i++) {
+      let ser_arr = []
+      let accommodation = {
+        id: '', type: '', name: '', information: '',
+        min_price: '', max_price: '', tel: '', fb_page: '',
+        services: [], images: [], fb_link: ''
+      }
+      accommodation.id = data[i]._id,
+        accommodation.type = data[i].type,
+        accommodation.name = data[i].name,
+        accommodation.information = data[i].information,
+        accommodation.min_price = data[i].min_price,
+        accommodation.max_price = data[i].max_price,
+        accommodation.fb_page = data[i].fb_page,
+        accommodation.fb_link = data[i].fb_link,
+        accommodation.tel = data[i].tel
+      for (let j = 0; j < data[i].services.length; j++) {
+        ser_arr.push(data[i].services[j])
+      }
+      for (let k = 0; k < data[i].images.length; k++) {
+        accommodation.images.push(data[i].images[k])
+      }
+      sortService(ser_arr)
+      accommodation.type.includes("โรงแรม") ? hotel_arr.push(accommodation) : accommodation.type.includes("แพพัก") ? boat_house_arr.push(accommodation) :
+        accommodation.type.includes("โฮมสเตย์") ? home_stay_arr.push(accommodation) : accommodation.type.includes("เรือนรับรอง") ? house_arr.push(accommodation) :
+          accommodation.type.includes("รีสอร์ท") ? resort_arr.push(accommodation) : accommodation.type.includes("โฮสเทล") ? host_tel_arr.push(accommodation) :
+            accommodation.type.includes("เกสต์เฮ้าส์") ? gest_house_arr.push(accommodation) : ''
+    }
+    console.log('test');
+    return res.status(200).json({
+      type: 'success', status: 200, payload: {
+        hotel: hotel_arr, boat_house: boat_house_arr, homestay: home_stay_arr
+        , house: house_arr, resort: resort_arr, hosttel: host_tel_arr, gesthouse: gest_house_arr
+      }
+    })
   })
 })
 
