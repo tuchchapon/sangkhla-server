@@ -1269,6 +1269,7 @@ router.route("/get/accommodation").get((req, res) => {
       for (let k = 0; k < data[i].images.length; k++) {
         accommodation.images.push(data[i].images[k])
       }
+      data_array.push(accommodation)
       sortService(ser_arr)
       accommodation.services = ser_arr
       accommodation.type.includes("แพพัก") ? null : all_hotel.push(accommodation)
@@ -1276,7 +1277,7 @@ router.route("/get/accommodation").get((req, res) => {
 
 
     }
-    return res.status(200).json({ payload: data_array, status: 200, length: data.length, hotel: homepage_hotel, boat_house: boat_house_array, all_hotel: all_hotel })
+    return res.status(200).json({ status: 200, payload: data_array, length: data.length, hotel: homepage_hotel, boat_house: boat_house_array, all_hotel: all_hotel })
 
   })
 })
@@ -1330,7 +1331,6 @@ router.route("/get/accom-sort").get((req, res) => {
           accommodation.type.includes("รีสอร์ท") ? resort_arr.push(accommodation) : accommodation.type.includes("โฮสเทล") ? host_tel_arr.push(accommodation) :
             accommodation.type.includes("เกสต์เฮ้าส์") ? gest_house_arr.push(accommodation) : ''
     }
-    console.log('test');
     return res.status(200).json({
       type: 'success', status: 200, payload: {
         hotel: hotel_arr, boat_house: boat_house_arr, homestay: home_stay_arr
