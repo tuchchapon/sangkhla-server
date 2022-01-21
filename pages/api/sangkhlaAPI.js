@@ -21,7 +21,7 @@ const Attraction = require('../../model/attraction')
 const Tradition = require('../../model/traditions')
 const Officer = require('../../model/officer')
 const Product = require('../../model/product');
-
+const Comment = require('../../model/comments')
 // const handle = express.getRequestHandler()
 // const formidable = require("formidable");
 // const form  =formidable.IncomingForm()
@@ -363,7 +363,7 @@ router.route("/create/accommodation").post((req, res) => {
 })
 
 
-// create Review
+// create Review api
 router.route("/create/review").post((req, res) => {
   console.log('req . body is', req.body)
   const review_name = req.body.review_name;
@@ -375,6 +375,45 @@ router.route("/create/review").post((req, res) => {
     res.status(201).json({ status: true, message: "create data success" })
   )
     .catch(res.status(500));
+})
+
+// create comment api 
+router.route("/create/comment").post(async (req, res) => {
+  console.log('req.body is', req.body);
+  const commentator_email = req.body.commentator_email
+  const commentator_name = req.body.commentator_name
+  const comment_text = req.body.comment_text
+  const comment_status = "pending"
+  if (!commentator_email || typeof commentator_email !== 'string') {
+    return res.json({ status: 'error', error: 'Invalid email' })
+  }
+  await Comment.create({
+    commentator_email,
+    commentator_name,
+    comment_text,
+    comment_status
+  }).then((e) => {
+    new Promise((resolve, reject) => {
+      smtpTransport.verify()
+      smtpTransport.sendMail({
+        to: user_email,
+        from: 'sangkhla2go',
+        subject: 'แจ้งเตือนจากระบบคอมเมนต์',
+        // html: `<p><a href=${url}>ตั้งรหัสผ่านใหม่</a></p>`
+      }, function (err, info) {
+        if (err) {
+          console.log('err is', err);
+          reject(err)
+        }
+        else {
+          resolve(info)
+          return res
+            .json({ status: 201, type: 'success', payload: "เพิ่มคอมเมนต์เรียบร้อยแล้ว" })
+        }
+      })
+    }
+    ).catch(res.status(500));
+  })
 })
 
 // create admin api
@@ -889,6 +928,25 @@ router.route('/get/reviews').get((req, res) => {
       reviews.review_name = data[i].review_name
       reviews.review_link = data[i].review_link
       data_array.push(reviews)
+    }
+    return res.status(200).json({ payload: data_array, status: 200 })
+  })
+})
+
+// get comment api
+router.route('/get/comment').get((req, res) => {
+  let data_array = []
+  Comment.find({}, (err, data) => {
+    if (err) {
+      res.send(err)
+    }
+    for (let i = 0; i < data.length; i++) {
+      let comment = { id: '', commentator_name: '', commentator_email: '', comment_status: '', comment_text }
+      comment.commentator_name = date[i].commentator_name
+      comment.commentator_email = data[i].commentator_email
+      comment.comment_status = data[i].comment_status
+      comment.comment_text = data[i].comment_text
+      data_array.push(comment)
     }
     return res.status(200).json({ payload: data_array, status: 200 })
   })
@@ -1618,6 +1676,64 @@ router.route('/edit/review').post(async (req, res) => {
   return res.status(200).json({ status: 200, type: 'success', payload: 'แก้ไขข้อมูลเรียบร้อยแล้ว' })
 })
 
+// approve reject comment api
+router.route('/edit/comment-status').post(async (req, res) => {
+  let id = req.body.id
+  let user_email = req.body.commaentator_email
+  let comment_status = req.body.comment_status
+  if (!id) {
+    return res.status(400).json({ status: 400, type: 'failed', payload: 'กรุณากรอกข้อมูลให้ครบถ้วน' })
+  }
+  if (comment_status === "approve") {
+    await new Promise((resolve, reject) => {
+
+      smtpTransport.verify()
+      smtpTransport.sendMail({
+        to: user_email,
+        from: 'sangkhla2go',
+        subject: 'แจ้งเตือนผลการคอมเมนต์',
+        html: `<span>ผ่าน</span>`
+      }, function (err, info) {
+        if (err) {
+          console.log('err is', err);
+          reject(err)
+        }
+        else {
+          resolve(info)
+          return res
+            .json({ status: 200, type: 'success', payload: "แก้ไขสถานะของคอมเมนต์เรียบร้อยแล้ว" })
+        }
+
+      })
+
+    })
+  }
+  else if (comment_status === "reject") {
+    await new Promise((resolve, reject) => {
+
+      smtpTransport.verify()
+      smtpTransport.sendMail({
+        to: comment_status,
+        from: 'sangkhla2go',
+        subject: 'แจ้งเตือนผลการคอมเมนต์',
+        html: `<span>ไม่ผ่าน</span>`
+      }, function (err, info) {
+        if (err) {
+          console.log('err is', err);
+          reject(err)
+        }
+        else {
+          resolve(info)
+          return res
+            .json({ status: 200, type: 'success', payload: "แก้ไขสถานะของคอมเมนต์เรียบร้อยแล้ว" })
+        }
+      })
+    })
+  }
+
+})
+
+
 // edit driver api 
 router.route('/edit/driver').post(async (req, res) => {
   let id = req.body._id
@@ -1886,6 +2002,15 @@ router.route('/delete/review').delete(async (req, res) => {
     return res.status(400).json({ status: 400, type: 'failed', payload: 'ไม่พบข้อมูลที่ส่งมา' })
   }
   await Reviews.deleteOne({ _id: req.body.id })
+  return res.status(200).json({ status: 200, type: 'success', payload: 'ลบข้อมูลสำเร็จ' })
+})
+
+// delete comment api
+router.route("/delete/comment").delete(async (req, res) => {
+  if (!req.body.id) {
+    return res.status(400).json({ status: 400, type: 'failed', payload: 'ไม่พบข้อมูลที่ส่งเข้ามา' })
+  }
+  await Comment.deleteOne({ _id: req.body.id })
   return res.status(200).json({ status: 200, type: 'success', payload: 'ลบข้อมูลสำเร็จ' })
 })
 
