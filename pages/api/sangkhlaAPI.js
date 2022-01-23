@@ -379,7 +379,9 @@ router.route("/create/review").post((req, res) => {
 
 // create comment api 
 router.route("/create/comment").post(async (req, res) => {
+  console.log('body is ', req.body);
   console.log('req.body is', req.body);
+  const user_email = 'tuchchaponsuthamma@gmail.com'
   const commentator_email = req.body.commentator_email
   const commentator_name = req.body.commentator_name
   const comment_text = req.body.comment_text
@@ -404,6 +406,8 @@ router.route("/create/comment").post(async (req, res) => {
         if (err) {
           console.log('err is', err);
           reject(err)
+          return res
+            .json({ status: 400, type: 'failed', payload: "ผิดพลาด", error: err })
         }
         else {
           resolve(info)
@@ -941,8 +945,9 @@ router.route('/get/comment').get((req, res) => {
       res.send(err)
     }
     for (let i = 0; i < data.length; i++) {
-      let comment = { id: '', commentator_name: '', commentator_email: '', comment_status: '', comment_text }
-      comment.commentator_name = date[i].commentator_name
+      let comment = { id: '', commentator_name: '', commentator_email: '', comment_status: '', comment_text: '' }
+      comment.id = data[i]._id
+      comment.commentator_name = data[i].commentator_name
       comment.commentator_email = data[i].commentator_email
       comment.comment_status = data[i].comment_status
       comment.comment_text = data[i].comment_text
