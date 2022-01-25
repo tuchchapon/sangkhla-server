@@ -379,7 +379,6 @@ router.route("/create/review").post((req, res) => {
 
 // create comment api 
 router.route("/create/comment").post(async (req, res) => {
-  console.log('body is ', req.body);
   console.log('req.body is', req.body);
   const user_email = 'tuchchaponsuthamma@gmail.com'
   const commentator_email = req.body.commentator_email
@@ -401,7 +400,7 @@ router.route("/create/comment").post(async (req, res) => {
         to: user_email,
         from: 'sangkhla2go',
         subject: 'แจ้งเตือนจากระบบคอมเมนต์',
-        // html: `<p><a href=${url}>ตั้งรหัสผ่านใหม่</a></p>`
+        html: `<p>มีคอมเมนต์ใหม่จากผู้ใช้งาน</p>`
       }, function (err, info) {
         if (err) {
           console.log('err is', err);
@@ -411,12 +410,13 @@ router.route("/create/comment").post(async (req, res) => {
         }
         else {
           resolve(info)
+          console.log('info is', info);
           return res
             .json({ status: 201, type: 'success', payload: "เพิ่มคอมเมนต์เรียบร้อยแล้ว" })
         }
       })
     }
-    ).catch(res.status(500));
+    )
   })
 })
 
@@ -939,6 +939,9 @@ router.route('/get/reviews').get((req, res) => {
 
 // get comment api
 router.route('/get/comment').get((req, res) => {
+  let pending_comment = []
+  let active_comment = []
+  let inactive_comment = []
   let data_array = []
   Comment.find({}, (err, data) => {
     if (err) {
@@ -951,9 +954,12 @@ router.route('/get/comment').get((req, res) => {
       comment.commentator_email = data[i].commentator_email
       comment.comment_status = data[i].comment_status
       comment.comment_text = data[i].comment_text
-      data_array.push(comment)
+      data[i].comment_status === 'pending' ? pending_comment.push(comment) :
+        data[i].comment_status === 'active' ? active_comment.push(comment) :
+          data[i].comment_status === 'inActive' ? active_comment.push(comment) : data_array.push(comment)
+
     }
-    return res.status(200).json({ payload: data_array, status: 200 })
+    return res.status(200).json({ payload: { pending: pending_comment, active: active_comment, inactive: inactive_comment }, status: 200 })
   })
 })
 
