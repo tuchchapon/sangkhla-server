@@ -940,8 +940,8 @@ router.route('/get/reviews').get((req, res) => {
 // get comment api
 router.route('/get/comment').get((req, res) => {
   let pending_comment = []
-  let active_comment = []
-  let inactive_comment = []
+  let approve_comment = []
+  let reject_comment = []
   let data_array = []
   Comment.find({}, (err, data) => {
     if (err) {
@@ -955,11 +955,11 @@ router.route('/get/comment').get((req, res) => {
       comment.comment_status = data[i].comment_status
       comment.comment_text = data[i].comment_text
       data[i].comment_status === 'pending' ? pending_comment.push(comment) :
-        data[i].comment_status === 'active' ? active_comment.push(comment) :
-          data[i].comment_status === 'inActive' ? active_comment.push(comment) : data_array.push(comment)
+        data[i].comment_status === 'approve' ? approve_comment.push(comment) :
+          data[i].comment_status === 'reject' ? reject_comment.push(comment) : data_array.push(comment)
 
     }
-    return res.status(200).json({ payload: { pending: pending_comment, active: active_comment, inactive: inactive_comment }, status: 200 })
+    return res.status(200).json({ payload: { pending: pending_comment, approve: approve_comment, reject: reject_comment }, status: 200 })
   })
 })
 
@@ -1690,8 +1690,11 @@ router.route('/edit/review').post(async (req, res) => {
 // approve reject comment api
 router.route('/edit/comment-status').post(async (req, res) => {
   let id = req.body.id
-  let user_email = req.body.commaentator_email
+  let user_email = req.body.commentator_email
   let comment_status = req.body.comment_status
+  let edit_comment = await Comment.findOne({ _id: new ObjectId(id) })
+  edit_comment.comment_status = req.body.comment_status
+  console.log(req.body.commentator_email);
   if (!id) {
     return res.status(400).json({ status: 400, type: 'failed', payload: 'กรุณากรอกข้อมูลให้ครบถ้วน' })
   }
@@ -1702,15 +1705,17 @@ router.route('/edit/comment-status').post(async (req, res) => {
       smtpTransport.sendMail({
         to: user_email,
         from: 'sangkhla2go',
-        subject: 'แจ้งเตือนผลการคอมเมนต์',
-        html: `<span>ผ่าน</span>`
+        subject: 'แจ้งเตือนผลการรีวิวจากเว็บไซต์ Sangkhla2go',
+        html: `<span>คอมเมนต์รีวิวของท่านผ่านการอนุมัติจากผู้ดูแลระบบแล้ว</span>`
       }, function (err, info) {
         if (err) {
           console.log('err is', err);
           reject(err)
+          return res.json({ status: 400, type: 'failed', payload: "ไม่สามารถส่งอีเมลล์ได้" })
         }
         else {
           resolve(info)
+          edit_comment.save()
           return res
             .json({ status: 200, type: 'success', payload: "แก้ไขสถานะของคอมเมนต์เรียบร้อยแล้ว" })
         }
@@ -1724,17 +1729,19 @@ router.route('/edit/comment-status').post(async (req, res) => {
 
       smtpTransport.verify()
       smtpTransport.sendMail({
-        to: comment_status,
+        to: user_email,
         from: 'sangkhla2go',
-        subject: 'แจ้งเตือนผลการคอมเมนต์',
-        html: `<span>ไม่ผ่าน</span>`
+        subject: 'แจ้งเตือนผลการรีวิวจากเว็บไซต์ Sangkhla2go',
+        html: `<span>คอมเมนต์รีวิวของท่านไม่ผ่านการอนุมัติจากผู้ดูแลระบบ</span>`
       }, function (err, info) {
         if (err) {
           console.log('err is', err);
           reject(err)
+          return res.json({ status: 400, type: 'failed', payload: "ไม่สามารถส่งอีเมลล์ได้" })
         }
         else {
           resolve(info)
+          edit_comment.save()
           return res
             .json({ status: 200, type: 'success', payload: "แก้ไขสถานะของคอมเมนต์เรียบร้อยแล้ว" })
         }
