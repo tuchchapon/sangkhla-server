@@ -412,7 +412,7 @@ router.route("/create/comment").post(async (req, res) => {
           resolve(info)
           console.log('info is', info);
           return res
-            .json({ status: 201, type: 'success', payload: "เพิ่มคอมเมนต์เรียบร้อยแล้ว" })
+            .json({ status: 200, type: 'success', payload: "เพิ่มคอมเมนต์เรียบร้อยแล้ว" })
         }
       })
     }
