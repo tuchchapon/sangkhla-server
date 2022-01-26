@@ -22,6 +22,7 @@ const Tradition = require('../../model/traditions')
 const Officer = require('../../model/officer')
 const Product = require('../../model/product');
 const Comment = require('../../model/comments')
+const BoatClubName = require('../../model/boatClubName')
 // const handle = express.getRequestHandler()
 // const formidable = require("formidable");
 // const form  =formidable.IncomingForm()
@@ -234,6 +235,21 @@ router.route("/create/boat-provider").post((req, res) => {
     )
     .catch(res.status(500));
 })
+
+// create boat club
+router.route("/create/boatClub").post((req, res) => {
+  if (!req.body.club_name) {
+    return res.status(400).json({ status: 400, type: 'failed', message: 'error' })
+  }
+  const club_name = req.body.club_name
+  BoatClubName.create({
+    club_name
+  }).then((e) => {
+    res.status(201).json({ status: 201, message: 'create data success' })
+  }).catch(res.status(500))
+
+})
+
 
 // create driver location api
 router.route("/create/driverLocation").post((req, res) => {
@@ -917,6 +933,26 @@ router.route('/get/location/:id').post((req, res) => {
 
   }
 })
+// get club name by id 
+router.route('/get/clubName/:id').post((req, res) => {
+  const id = req.body.id
+  try {
+    BoatClubName.findOne({ _id: id }, function (err, data) {
+      if (err) {
+        console.log(err);
+      } else {
+        return res.status(200).json({
+          status: 200,
+          type: 'success',
+          payload: data
+        })
+      }
+
+    })
+  } catch (error) {
+
+  }
+})
 
 // get reviews api
 
@@ -932,6 +968,24 @@ router.route('/get/reviews').get((req, res) => {
       reviews.review_name = data[i].review_name
       reviews.review_link = data[i].review_link
       data_array.push(reviews)
+    }
+    return res.status(200).json({ payload: data_array, status: 200 })
+  })
+})
+
+// get boat club name 
+router.route('/get/boatClubName').get((req, res) => {
+  let data_array = []
+  BoatClubName.find({}, function (err, data) {
+    if (err) {
+      res.send(err)
+    }
+    for (let i = 0; i < data.length; i++) {
+
+      let boatClubName = { id: '', club_name: '' }
+      boatClubName.id = data[i]._id
+      boatClubName.club_name = data[i].club_name
+      data_array.push(boatClubName)
     }
     return res.status(200).json({ payload: data_array, status: 200 })
   })
@@ -1687,6 +1741,18 @@ router.route('/edit/review').post(async (req, res) => {
   return res.status(200).json({ status: 200, type: 'success', payload: 'แก้ไขข้อมูลเรียบร้อยแล้ว' })
 })
 
+// edit boat club name
+router.route('/edit/boatClubName').post(async (req, res) => {
+  console.log('req body is', req.body);
+  let newClubName = await BoatClubName.findOne({ _id: req.body._id })
+  newClubName.club_name = req.body.club_name
+  if (!req.body.club_name) {
+    return res.status(400).json({ status: 400, type: 'failed', payload: 'กรุณากรอกข้อมูลให้ครบถ้วน' })
+  }
+  await newClubName.save()
+  return res.status(200).json({ status: 200, type: 'success', payload: 'แก้ไขข้อมูลเรียบร้อยแล้ว' })
+})
+
 // approve reject comment api
 router.route('/edit/comment-status').post(async (req, res) => {
   let id = req.body.id
@@ -1948,6 +2014,15 @@ router.route('/delete/driver-location').delete(async (req, res) => {
     return res.status(400).json({ status: 400, type: 'failed', payload: 'ไม่พบข้อมูลที่ส่งมา' })
   }
   await DriverLocation.deleteOne({ _id: req.body.id })
+  return res.json({ status: 200, type: 'success', payload: 'ลบข้อมูลสำเร็จ' })
+})
+
+// delete boat club name 
+router.route('/delete/boat-clubname').delete(async (req, res) => {
+  if (!req.body.id) {
+    return res.status(400).json({ status: 400, type: 'failed', payload: 'ไม่พบข้อมูลที่ส่งมา' })
+  }
+  await BoatClubName.deleteOne({ _id: req.body.id })
   return res.json({ status: 200, type: 'success', payload: 'ลบข้อมูลสำเร็จ' })
 })
 
