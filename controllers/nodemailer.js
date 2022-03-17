@@ -2,8 +2,8 @@ const nodemailer = require('nodemailer')
 
 
 // sendgrid mailer setting
-const smtpTransport = nodemailer.createTransport({
-  service: 'gmail',
+var smtpTransport = nodemailer.createTransport({
+  service: 'Gmail',
   auth: {
     user: 'sangkhla2go@gmail.com',
     pass: 'sangkhla2go.com'
