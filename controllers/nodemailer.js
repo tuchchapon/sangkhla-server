@@ -4,9 +4,10 @@ const nodemailer = require('nodemailer')
 // sendgrid mailer setting
 const smtpTransport = nodemailer.createTransport({
   service: 'gmail',
+  host: 'smtp.gmail.com',
   auth: {
-    user: 'tuchchaponsuthamma@gmail.com',
-    pass: 'tuch253913..'
+    user: 'sangkhla2go@gmail.com',
+    pass: 'sangkhla2go.com'
   },
 })
 
