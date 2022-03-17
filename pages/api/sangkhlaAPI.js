@@ -649,7 +649,7 @@ router.route('/forgot-password/').post(async (req, res) => {
         let url = `https://www.sangkhla2go.com/resetPassword?token=${new_token}`
         await new Promise((resolve, reject) => {
 
-          smtpTransport.verify()
+          // smtpTransport.verify()
           smtpTransport.sendMail({
             to: admin.email,
             from: 'sangkhla2go',
