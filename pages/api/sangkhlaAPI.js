@@ -1791,28 +1791,28 @@ router.route('/edit/comment-status').post(async (req, res) => {
     })
   }
   else if (comment_status === "reject") {
-    await new Promise((resolve, reject) => {
+    // await new Promise((resolve, reject) => {
 
-      smtpTransport.verify()
-      smtpTransport.sendMail({
-        to: user_email,
-        from: 'sangkhla2go',
-        subject: 'แจ้งเตือนผลการรีวิวจากเว็บไซต์ Sangkhla2go',
-        html: `<span>คอมเมนต์รีวิวของท่านไม่ผ่านการอนุมัติจากผู้ดูแลระบบ</span>`
-      }, function (err, info) {
-        if (err) {
-          console.log('err is', err);
-          reject(err)
-          return res.json({ status: 400, type: 'failed', payload: "ไม่สามารถส่งอีเมลล์ได้" })
-        }
-        else {
-          resolve(info)
-          edit_comment.save()
-          return res
-            .json({ status: 200, type: 'success', payload: "แก้ไขสถานะของคอมเมนต์เรียบร้อยแล้ว" })
-        }
-      })
-    })
+    //   smtpTransport.verify()
+    //   smtpTransport.sendMail({
+    //     to: user_email,
+    //     from: 'sangkhla2go',
+    //     subject: 'แจ้งเตือนผลการรีวิวจากเว็บไซต์ Sangkhla2go',
+    //     html: `<span>คอมเมนต์รีวิวของท่านไม่ผ่านการอนุมัติจากผู้ดูแลระบบ</span>`
+    //   }, function (err, info) {
+    //     if (err) {
+    //       console.log('err is', err);
+    //       reject(err)
+    //       return res.json({ status: 400, type: 'failed', payload: "ไม่สามารถส่งอีเมลล์ได้" })
+    //     }
+    //     else {
+    //       resolve(info)
+    //       edit_comment.save()
+    //       return res
+    //         .json({ status: 200, type: 'success', payload: "แก้ไขสถานะของคอมเมนต์เรียบร้อยแล้ว" })
+    //     }
+    //   })
+    // })
   }
 
 })
